@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import Navbar from "../components/Navbar";
 
 function Home() {
   const [worlds, setWorlds] = useState([]);
@@ -8,46 +9,59 @@ function Home() {
   const navigate = useNavigate();
 
   const getWorlds = async () => {
-    const res = await API.get("/worlds");
-    setWorlds(res.data);
+    try {
+      const res = await API.get("/worlds");
+      setWorlds(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const createWorld = async () => {
     if (!name) return;
 
-    await API.post("/worlds", { name });
-    setName("");
-    getWorlds();
+    try {
+      await API.post("/worlds", { name });
+      setName("");
+      getWorlds();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    getWorlds();
+    getWorlds(); // 🚀 solo carga datos
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>🌍 Hardcore Logs</h1>
+    <>
+      <Navbar />
 
-      <input
-        type="text"
-        placeholder="Nombre del mundo"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button onClick={createWorld}>Crear</button>
+      <div style={{ padding: "20px" }}>
+        <h1>🌍 Hardcore Logs</h1>
 
-      <ul>
-        {worlds.map((w) => (
-          <li
-            key={w._id}
-            style={{ cursor: "pointer" }}
-            onClick={() => navigate(`/world/${w._id}`)}
-          >
-            {w.name}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <input
+          type="text"
+          placeholder="Nombre del mundo"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <button onClick={createWorld}>Crear</button>
+
+        <ul>
+          {worlds.map((w) => (
+            <li
+              key={w._id}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(`/world/${w._id}`)}
+            >
+              {w.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
 

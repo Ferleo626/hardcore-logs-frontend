@@ -4,4 +4,15 @@ const API = axios.create({
   baseURL: "http://localhost:4000/api",
 });
 
+// Interceptor (se ejecuta antes de cada request)
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
 export default API;
