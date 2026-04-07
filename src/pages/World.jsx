@@ -147,29 +147,49 @@ function World() {
 
   // --- SOCKETS Y EFECTOS ---
 
+ // --- SOCKETS Y EFECTOS (Versión Global) ---
+
   useEffect(() => {
     if (!id) return;
-    const newSocket = io("http://localhost:4000", {
+
+    // Detecta automáticamente si usa Render o Localhost
+    const socketUrl = import.meta.env.VITE_API_URL 
+      ? "https://hardcore-logs-backend.onrender.com" 
+      : "http://localhost:4000";
+
+    const newSocket = io(socketUrl, {
       withCredentials: true,
       transports: ["websocket", "polling"]
     });
-    newSocket.on("connect", () => console.log("✅ Conectado!"));
+
+    newSocket.on("connect", () => console.log("✅ Socket Conectado a:", socketUrl));
+    
     setSocket(newSocket);
-    return () => newSocket.disconnect();
+
+    return () => {
+      if (newSocket) newSocket.disconnect();
+    };
   }, [id]);
 
   useEffect(() => {
     if (!socket || !id) return;
+
     const handleNewEvent = (event) => {
+      // Verificamos que el evento pertenezca al mundo actual
       if (String(event.worldId) === String(id)) {
         setEvents((prev) => {
+          // Evitamos duplicados por las dudas
           if (prev.some(e => e._id === event._id)) return prev;
           return [event, ...prev];
         });
       }
     };
+
     socket.on("newEvent", handleNewEvent);
-    return () => socket.off("newEvent", handleNewEvent);
+    
+    return () => {
+      socket.off("newEvent", handleNewEvent);
+    };
   }, [socket, id]);
 
   useEffect(() => {
@@ -177,7 +197,6 @@ function World() {
     getWorld();
     getEvents();
   }, [id]);
-
   // --- CONTADORES ---
   const deaths = events.filter(e => e.type === "DEATH").length;
   const diamonds = events.filter(e => e.type === "DIAMOND").length;
