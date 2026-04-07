@@ -16,7 +16,7 @@ function Register() {
     try {
       await API.post("/auth/register", { email, password });
       alert("Cuenta creada correctamente");
-      navigate("/login"); // enviar al login después del registro
+      navigate("/login");
     } catch (error) {
       if (error.response?.data?.message) {
         alert(error.response.data.message);
