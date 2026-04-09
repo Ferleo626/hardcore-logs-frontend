@@ -29,7 +29,21 @@ function World() {
   const [z, setZ] = useState("");
 
   // --- FUNCIONES DE FORMATEO Y ESTILO ---
-
+const normalizeType = (type) => {
+  if (!type) return "UNKNOWN";
+  const t = type.toUpperCase().replace(/\s+/g, '_'); // Reemplaza espacios por guiones bajos
+  
+  if (t === "DEATH" || t === "PLAYER_DEATH") return "PLAYER_DEATH";
+  if (t === "DIAMOND" || t === "MINED_DIAMOND") return "MINED_DIAMOND";
+  if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
+  if (t.includes("SKELETON")) return "KILL_SKELETON";
+  if (t.includes("CREEPER")) return "KILL_CREEPER";
+  if (t.includes("NETHER")) return "NETHER";
+  if (t.includes("END")) return "END";
+  if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
+  
+  return t;
+};
   const formatDate = (date) => {
     if (!date) return "Fecha desconocida";
     return new Date(date).toLocaleString("es-AR", {
@@ -44,8 +58,8 @@ function World() {
 
   const getIcon = (type) => { 
     switch (type) {
-      case "DEATH": return "🐻‍❄️🕶️"; 
-      case "DIAMOND": return "💎";
+      case "PLAYER_DEATH": return "🐻‍❄️🕶️"; 
+      case "MINED_DIAMOND": return "💎";
       case "ANCIENT_DEBRIS": return "🔥";
       case "NETHER": return "🌋";
       case "END": return "🌌";
@@ -61,8 +75,8 @@ function World() {
 
   const getDescription = (event) => {
     switch (event.type) {
-      case "DEATH": return "Murió 💀 (El Oso cayó)";
-      case "DIAMOND": return "Encontró diamante 💎";
+      case "PLAYER_DEATH": return "Murió 💀 (El Oso cayó)";
+      case "MINED_DIAMOND": return "Encontró diamante 💎";
       case "ANCIENT_DEBRIS": return "Encontró Ancient Debris 🔥";
       case "NETHER": return "Entró al Nether 🔥";
       case "END": return "Entró al End 🌌";
@@ -76,31 +90,36 @@ function World() {
   };
 
   const getColor = (type) => {
-    switch (type) {
-      case "DEATH": return "#ff4d4d";
-      case "DIAMOND": return "#00ffff";
-      case "ANCIENT_DEBRIS": return "#ff9900";
-      case "DRAGON": return "#a64dff";
-      case "TOTEM": return "#ffd700";
-      default: return "white";
-    }
-  };
+  switch (type) {
+    case "PLAYER_DEATH":
+    case "DEATH":
+      return "#ff4d4d";
+    case "MINED_DIAMOND":
+      return "#00ffff";
+    case "ANCIENT_DEBRIS":
+      return "#ff9900";
+    case "DRAGON":
+      return "#a64dff";
+    case "TOTEM":
+      return "#ffd700";
+    default:
+      return "white";
+  }
+};
 
-  const getDimensionName = (dim) => {
-    switch (dim) {
-      case "THE_NETHER": return "🔥 Nether";
-      case "THE_END": return "🌌 End";
-      default: return "🌿 Overworld";
-    }
-  };
+ const getDimensionName = (dim) => {
+  if (!dim) return "🌿 Overworld";
+  const d = dim.toString().toUpperCase();
+  if (d.includes("NETHER")) return "🔥 Nether";
+  if (d.includes("END")) return "🌌 End";
+  return "🌿 Overworld";
+};
 
   const getDimensionStyle = (dim) => {
-    switch (dim) {
-      case "THE_NETHER": return { color: "#ff4d4d", fontWeight: "bold" };
-      case "THE_END": return { color: "#a64dff", fontWeight: "bold" };
-      default: return { color: "#55ff55", fontWeight: "bold" };
-    }
-  };
+  if (dim === "NETHER" || dim === "THE_NETHER") return { color: "#ff4d4d", fontWeight: "bold" };
+  if (dim === "END" || dim === "THE_END") return { color: "#a64dff", fontWeight: "bold" };
+  return { color: "#55ff55", fontWeight: "bold" };
+};
 
   // --- LLAMADAS A API ---
 
@@ -175,15 +194,15 @@ function World() {
     if (!socket || !id) return;
 
     const handleNewEvent = (event) => {
-      // Verificamos que el evento pertenezca al mundo actual
-      if (String(event.worldId) === String(id)) {
-        setEvents((prev) => {
-          // Evitamos duplicados por las dudas
-          if (prev.some(e => e._id === event._id)) return prev;
-          return [event, ...prev];
-        });
-      }
-    };
+  console.log("🔥 EVENTO REAL:", event);
+
+  if (String(event.worldId) === String(id)) {
+    setEvents((prev) => {
+      if (prev.some(e => e._id === event._id)) return prev;
+      return [event, ...prev];
+    });
+  }
+};
 
     socket.on("newEvent", handleNewEvent);
     
@@ -192,19 +211,13 @@ function World() {
     };
   }, [socket, id]);
 
-  useEffect(() => {
-    if (!id) return;
-    getWorld();
-    getEvents();
-  }, [id]);
   // --- CONTADORES ---
-  const deaths = events.filter(e => e.type === "DEATH").length;
-  const diamonds = events.filter(e => e.type === "DIAMOND").length;
-  const zombieKills = events.filter(e => e.type === "KILL_ZOMBIE").length;
-  const creeperKills = events.filter(e => e.type === "KILL_CREEPER").length;
-  const skeletonKills = events.filter(e => e.type === "KILL_SKELETON").length;
-  const debris = events.filter(e => e.type === "ANCIENT_DEBRIS").length;
-
+ const deaths = events.filter(e => normalizeType(e.type) === "PLAYER_DEATH").length;
+const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
+const debris = events.filter(e => normalizeType(e.type) === "ANCIENT_DEBRIS").length;
+const zombieKills = events.filter(e => normalizeType(e.type) === "KILL_ZOMBIE").length;
+const creeperKills = events.filter(e => normalizeType(e.type) === "KILL_CREEPER").length;
+const skeletonKills = events.filter(e => normalizeType(e.type) === "KILL_SKELETON").length;
   return (
     <div className={styles.container}>
 
@@ -297,7 +310,7 @@ function World() {
             width: '80px', 
             height: '80px' 
           }}>
-            {e.type === "DEATH" ? (
+            {e.type === "PLAYER_DEATH" ? (
               <>
                 
                 <span style={{ 
@@ -329,13 +342,13 @@ function World() {
 
           <div>
             <h4 className={styles.eventTitle} style={{ color: getColor(e.type) }}>
-              {e.type.replace(/_/g, " ")}
+              {normalizeType(e.type).replace(/_/g, " ")}
             </h4>
             <p className={styles.eventDescription}>{getDescription(e)}</p>
             <div className={styles.eventMeta}>
               <span style={getDimensionStyle(e.dimension)}>{getDimensionName(e.dimension)}</span>
               <span className={styles.coords}>X: {e.x} | Y: {e.y} | Z: {e.z}</span>
-              {e.dimension === "THE_NETHER" && (
+              {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
                 <span style={{ color: "#aaa" }}> (OW: X:{e.x * 8} Z:{e.z * 8})</span>
               )}
             </div>
