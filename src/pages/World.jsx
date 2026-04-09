@@ -178,10 +178,11 @@ function World() {
     if (!socket) return;
 
     const handleNewEvent = (event) => {
-      console.log("🔥 EVENTO REAL:", event);
-      setEvents(prev => [event, ...prev]);
-    };
+  if (event.worldId !== id) return; // 🔥 FILTRO CLAVE
 
+  console.log("🔥 EVENTO REAL:", event);
+  setEvents(prev => [event, ...prev]);
+};
     socket.on("newEvent", handleNewEvent);
 
     return () => socket.off("newEvent", handleNewEvent);
