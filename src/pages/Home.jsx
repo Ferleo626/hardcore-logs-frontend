@@ -1,114 +1,57 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../services/api";
+// REEMPLAZÁ SOLO EL RETURN POR ESTE
 
-// 🎨 Estilos nuevos
-const containerStyle = {
-  background: "radial-gradient(circle at center, #001f5c 0%, #001030 100%)",
-  minHeight: "100vh",
-  color: "#f0f0f0",
-  padding: "40px 20px",
-  textAlign: "center",
-  fontFamily: "Roboto, sans-serif"
-};
+return (
+  <div style={containerStyle}>
+    
+    {/* 🔥 HEADER ESTILO WORLD */}
+    <h1 style={{ 
+      fontSize: "3rem", 
+      color: "#ffc800", 
+      textShadow: "0 0 10px rgba(255, 200, 0, 0.7)", 
+      letterSpacing: "3px", 
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      marginBottom: "10px"
+    }}>
+      🌍 MIS MUNDOS HARDCORE
+    </h1>
 
-const cardStyle = {
-  background: "rgba(10, 10, 10, 0.85)",
-  borderRadius: "15px",
-  padding: "20px",
-  margin: "15px auto",
-  maxWidth: "600px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  borderBottom: "3px solid #ffc800",
-  boxShadow: "0 4px 15px rgba(0,0,0,0.5)"
-};
+    <p style={{ opacity: 0.7, marginBottom: "30px" }}>
+      Hardcore Minecraft Tracker Dashboard
+    </p>
 
-const inputStyle = {
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ffc800",
-  background: "rgba(255,255,255,0.1)",
-  color: "white",
-  width: "70%",
-  marginRight: "10px"
-};
+    {/* 🔥 ESTADO LOADING */}
+    {loading && (
+      <h1 style={{ color: "#ffc800" }}>CARGANDO...</h1>
+    )}
 
-function Home() {
-  const [worlds, setWorlds] = useState([]);
-  const [name, setName] = useState("");
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const [error, setError] = useState(null);
+    {/* 🔥 ESTADO ERROR (ESTILO WORLD) */}
+    {!loading && error && (
+      <div style={{ textAlign: "center", marginBottom: "30px" }}>
+        <h1 style={{ color: "#ffc800" }}>ERROR DE CONEXIÓN</h1>
 
-  const getWorlds = async () => {
-  try {
-    setLoading(true);
-    setError(null); // limpio error previo
-    const res = await API.get("/worlds");
-    const sortedWorlds = res.data.sort((a, b) => b.active - a.active);
-    setWorlds(sortedWorlds);
-  } catch (err) {
-    console.error(err);
-    setError("No se pudo cargar los mundos. Verifica tu conexión o el servidor.");
-  } finally {
-    setLoading(false);
-  }
-};
-  const createWorld = async () => {
-    if (!name.trim()) return;
-    try {
-      await API.post("/worlds", { name });
-      setName("");
-      await getWorlds();
-    } catch (error) {
-      console.error(error);
-      alert("Error al crear el mundo.");
-    }
-  };
+        <button
+          onClick={getWorlds}
+          style={{
+            padding: "12px 25px",
+            background: "#ffc800",
+            color: "#001030",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            marginTop: "10px",
+            boxShadow: "0 0 10px rgba(255,200,0,0.6)"
+          }}
+        >
+          🔄 REINTENTAR CONEXIÓN
+        </button>
+      </div>
+    )}
 
-  const activateWorld = async (id, worldName) => {
-    try {
-      await API.put(`/worlds/activate/${id}`);
-      alert(`✅ Mundo "${worldName}" activado`);
-      await getWorlds();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteWorld = async (worldId) => {
-    if (!window.confirm("¿Seguro que quieres borrar este mundo?")) return;
-
-    try {
-      await API.delete(`/worlds/${worldId}`);
-      setWorlds(worlds.filter(w => w._id !== worldId));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getWorlds();
-  }, []);
-
- return (
-    <>
-      <div style={containerStyle}>
-        <h1 style={{ 
-          fontSize: "3rem", 
-          color: "#ffc800", 
-          textShadow: "0 0 10px rgba(255, 200, 0, 0.7)", 
-          letterSpacing: "3px", 
-          fontWeight: "bold",
-          textTransform: "uppercase",
-          margin: "32px 0", 
-          textAlign: "center"
-        }}>
-          🌍 Mis Mundos Hardcore
-        </h1>
-
+    {/* 🔥 CONTENIDO SOLO SI NO HAY ERROR */}
+    {!loading && !error && (
+      <>
         {/* Crear mundo */}
         <div style={{ marginBottom: "30px" }}>
           <input
@@ -134,33 +77,12 @@ function Home() {
           </button>
         </div>
 
-        {/* Lista de Mundos */}
-        {loading ? (
-  <p>Cargando mundos...</p>
-) : error ? (
-  <div>
-    <p style={{ color: "#ff4444", fontWeight: "bold" }}>{error}</p>
-    <button
-      onClick={getWorlds}
-      style={{
-        padding: "10px 20px",
-        background: "#ffc800",
-        color: "#001030",
-        border: "none",
-        borderRadius: "8px",
-        cursor: "pointer",
-        fontWeight: "bold",
-        marginTop: "10px"
-      }}
-    >
-      🔄 Reintentar conexión
-    </button>
-  </div>
-) : worlds.length === 0 ? (
-  <p>No hay mundos todavía.</p>
-) : (
-  worlds.map((w) => (
-    <div key={w._id} style={cardStyle}>
+        {/* Lista */}
+        {worlds.length === 0 ? (
+          <p>No hay mundos todavía.</p>
+        ) : (
+          worlds.map((w) => (
+            <div key={w._id} style={cardStyle}>
               <div
                 onClick={() => navigate(`/world/${w._id}`)}
                 style={{ cursor: "pointer", flex: 1, textAlign: "left" }}
@@ -221,9 +143,7 @@ function Home() {
         <p style={{ marginTop: "20px", fontSize: "0.85rem", opacity: 0.7 }}>
           Haz clic en un mundo para ver detalles.
         </p>
-      </div>
-    </>
-  );
-}
-
-export default Home;
+      </>
+    )}
+  </div>
+);
