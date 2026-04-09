@@ -40,20 +40,22 @@ function Home() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const getWorlds = async () => {
-    try {
-      setLoading(true);
-      const res = await API.get("/worlds");
-      const sortedWorlds = res.data.sort((a, b) => b.active - a.active);
-      setWorlds(sortedWorlds);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  try {
+    setLoading(true);
+    setError(null); // limpio error previo
+    const res = await API.get("/worlds");
+    const sortedWorlds = res.data.sort((a, b) => b.active - a.active);
+    setWorlds(sortedWorlds);
+  } catch (err) {
+    console.error(err);
+    setError("No se pudo cargar los mundos. Verifica tu conexión o el servidor.");
+  } finally {
+    setLoading(false);
+  }
+};
   const createWorld = async () => {
     if (!name.trim()) return;
     try {
@@ -134,12 +136,31 @@ function Home() {
 
         {/* Lista de Mundos */}
         {loading ? (
-          <p>Cargando mundos...</p>
-        ) : worlds.length === 0 ? (
-          <p>No hay mundos todavía.</p>
-        ) : (
-          worlds.map((w) => (
-            <div key={w._id} style={cardStyle}>
+  <p>Cargando mundos...</p>
+) : error ? (
+  <div>
+    <p style={{ color: "#ff4444", fontWeight: "bold" }}>{error}</p>
+    <button
+      onClick={getWorlds}
+      style={{
+        padding: "10px 20px",
+        background: "#ffc800",
+        color: "#001030",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        marginTop: "10px"
+      }}
+    >
+      🔄 Reintentar conexión
+    </button>
+  </div>
+) : worlds.length === 0 ? (
+  <p>No hay mundos todavía.</p>
+) : (
+  worlds.map((w) => (
+    <div key={w._id} style={cardStyle}>
               <div
                 onClick={() => navigate(`/world/${w._id}`)}
                 style={{ cursor: "pointer", flex: 1, textAlign: "left" }}
