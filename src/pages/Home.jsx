@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
-// 🎨 Estilos nuevos
+// 🎨 Estilos
 const containerStyle = {
   background: "radial-gradient(circle at center, #001f5c 0%, #001030 100%)",
   minHeight: "100vh",
@@ -97,7 +97,7 @@ function Home() {
   return (
     <div style={containerStyle}>
       
-      {/* 🔥 HEADER ESTILO WORLD */}
+      {/* 🔥 HEADER DINÁMICO */}
       <h1 style={{ 
         fontSize: "3rem", 
         color: "#ffc800", 
@@ -107,19 +107,12 @@ function Home() {
         textTransform: "uppercase",
         marginBottom: "10px"
       }}>
-        🌍 MIS MUNDOS HARDCORE
+        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
       </h1>
 
       <p style={{ opacity: 0.7, marginBottom: "30px" }}>
         Hardcore Minecraft Tracker Dashboard
       </p>
-
-      {/* 🔥 ESTADO LOADING */}
-      {loading && (
-        <h1 style={{ color: "#ffc800", textShadow: "0 0 10px rgba(255,200,0,0.6)" }}>
-          CARGANDO...
-        </h1>
-      )}
 
       {/* 🔥 ESTADO ERROR */}
       {!loading && error && (
@@ -175,7 +168,7 @@ function Home() {
             </button>
           </div>
 
-          {/* Lista */}
+          {/* Lista de mundos */}
           {worlds.length === 0 ? (
             <p>No hay mundos todavía.</p>
           ) : (
