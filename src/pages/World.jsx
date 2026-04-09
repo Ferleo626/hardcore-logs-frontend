@@ -2,17 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { io } from "socket.io-client";
-
-// 🔥 ESTILOS NUEVOS
 import styles from "./World.module.css";
-
-const cardStyle = {
-  background: "#1e1e1e",
-  padding: "10px 15px",
-  borderRadius: "10px",
-  color: "white",
-  boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-};
 
 function World() {
   const { id } = useParams();
@@ -21,29 +11,29 @@ function World() {
   const [events, setEvents] = useState([]);
   const [socket, setSocket] = useState(null);
 
-  // Estados para el formulario de creación manual
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [x, setX] = useState("");
   const [y, setY] = useState("");
   const [z, setZ] = useState("");
 
-  // --- FUNCIONES DE FORMATEO Y ESTILO ---
-const normalizeType = (type) => {
-  if (!type) return "UNKNOWN";
-  const t = type.toUpperCase().replace(/\s+/g, '_'); // Reemplaza espacios por guiones bajos
-  
-  if (t === "DEATH" || t === "PLAYER_DEATH") return "PLAYER_DEATH";
-  if (t === "DIAMOND" || t === "MINED_DIAMOND") return "MINED_DIAMOND";
-  if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
-  if (t.includes("SKELETON")) return "KILL_SKELETON";
-  if (t.includes("CREEPER")) return "KILL_CREEPER";
-  if (t.includes("NETHER")) return "NETHER";
-  if (t.includes("END")) return "END";
-  if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
-  
-  return t;
-};
+  // --- FORMATEO DE TIPOS ---
+  const normalizeType = (type) => {
+    if (!type) return "UNKNOWN";
+    const t = type.toUpperCase().replace(/\s+/g, "_");
+
+    if (t === "DEATH" || t === "PLAYER_DEATH") return "PLAYER_DEATH";
+    if (t === "DIAMOND" || t === "MINED_DIAMOND") return "MINED_DIAMOND";
+    if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
+    if (t.includes("SKELETON")) return "KILL_SKELETON";
+    if (t.includes("CREEPER")) return "KILL_CREEPER";
+    if (t.includes("NETHER")) return "NETHER";
+    if (t.includes("END")) return "END";
+    if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
+
+    return t;
+  };
+
   const formatDate = (date) => {
     if (!date) return "Fecha desconocida";
     return new Date(date).toLocaleString("es-AR", {
@@ -52,13 +42,13 @@ const normalizeType = (type) => {
       hour12: false,
       day: "2-digit",
       month: "2-digit",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
-  const getIcon = (type) => { 
+  const getIcon = (type) => {
     switch (type) {
-      case "PLAYER_DEATH": return "🐻‍❄️🕶️"; 
+      case "PLAYER_DEATH": return "🐻‍❄️🕶️";
       case "MINED_DIAMOND": return "💎";
       case "ANCIENT_DEBRIS": return "🔥";
       case "NETHER": return "🌋";
@@ -90,39 +80,32 @@ const normalizeType = (type) => {
   };
 
   const getColor = (type) => {
-  switch (type) {
-    case "PLAYER_DEATH":
-    case "DEATH":
-      return "#ff4d4d";
-    case "MINED_DIAMOND":
-      return "#00ffff";
-    case "ANCIENT_DEBRIS":
-      return "#ff9900";
-    case "DRAGON":
-      return "#a64dff";
-    case "TOTEM":
-      return "#ffd700";
-    default:
-      return "white";
-  }
-};
+    switch (type) {
+      case "PLAYER_DEATH":
+      case "DEATH": return "#ff4d4d";
+      case "MINED_DIAMOND": return "#00ffff";
+      case "ANCIENT_DEBRIS": return "#ff9900";
+      case "DRAGON": return "#a64dff";
+      case "TOTEM": return "#ffd700";
+      default: return "white";
+    }
+  };
 
- const getDimensionName = (dim) => {
-  if (!dim) return "🌿 Overworld";
-  const d = dim.toString().toUpperCase();
-  if (d.includes("NETHER")) return "🔥 Nether";
-  if (d.includes("END")) return "🌌 End";
-  return "🌿 Overworld";
-};
+  const getDimensionName = (dim) => {
+    if (!dim) return "🌿 Overworld";
+    const d = dim.toString().toUpperCase();
+    if (d.includes("NETHER")) return "🔥 Nether";
+    if (d.includes("END")) return "🌌 End";
+    return "🌿 Overworld";
+  };
 
   const getDimensionStyle = (dim) => {
-  if (dim === "NETHER" || dim === "THE_NETHER") return { color: "#ff4d4d", fontWeight: "bold" };
-  if (dim === "END" || dim === "THE_END") return { color: "#a64dff", fontWeight: "bold" };
-  return { color: "#55ff55", fontWeight: "bold" };
-};
+    if (dim === "NETHER" || dim === "THE_NETHER") return { color: "#ff4d4d", fontWeight: "bold" };
+    if (dim === "END" || dim === "THE_END") return { color: "#a64dff", fontWeight: "bold" };
+    return { color: "#55ff55", fontWeight: "bold" };
+  };
 
-  // --- LLAMADAS A API ---
-
+  // --- API CALLS ---
   const getEvents = async () => {
     if (!id) return;
     try {
@@ -164,25 +147,21 @@ const normalizeType = (type) => {
     }
   };
 
-  // --- SOCKETS Y EFECTOS ---
-
- // --- SOCKETS Y EFECTOS (Versión Global) ---
-
+  // --- SOCKET SETUP ---
   useEffect(() => {
     if (!id) return;
 
-    // Detecta automáticamente si usa Render o Localhost
-    const socketUrl = import.meta.env.VITE_API_URL 
-      ? "https://hardcore-logs-backend.onrender.com" 
+    const socketUrl = import.meta.env.VITE_API_URL
+      ? "https://hardcore-logs-backend.onrender.com"
       : "http://localhost:4000";
 
     const newSocket = io(socketUrl, {
       withCredentials: true,
-      transports: ["websocket", "polling"]
+      transports: ["websocket", "polling"],
     });
 
     newSocket.on("connect", () => console.log("✅ Socket Conectado a:", socketUrl));
-    
+
     setSocket(newSocket);
 
     return () => {
@@ -190,181 +169,167 @@ const normalizeType = (type) => {
     };
   }, [id]);
 
+  // --- SOCKET EVENTS ---
   useEffect(() => {
-    if (!socket || !id) return;
+    if (!socket) return;
 
     const handleNewEvent = (event) => {
-  console.log("🔥 EVENTO REAL:", event);
-
-  if (String(event.worldId) === String(id)) {
-    setEvents((prev) => {
-      if (prev.some(e => e._id === event._id)) return prev;
-      return [event, ...prev];
-    });
-  }
-};
+      console.log("🔥 EVENTO REAL:", event);
+      setEvents((prev) => {
+        if (prev.some(e => e._id === event._id)) return prev;
+        return [event, ...prev];
+      });
+    };
 
     socket.on("newEvent", handleNewEvent);
-    
-    return () => {
-      socket.off("newEvent", handleNewEvent);
-    };
-  }, [socket, id]);
+    return () => socket.off("newEvent", handleNewEvent);
+  }, [socket]);
+
+  // --- FETCH WORLD & EVENTS ---
+  useEffect(() => {
+    getWorld();
+    getEvents();
+  }, [id]);
 
   // --- CONTADORES ---
- const deaths = events.filter(e => normalizeType(e.type) === "PLAYER_DEATH").length;
-const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
-const debris = events.filter(e => normalizeType(e.type) === "ANCIENT_DEBRIS").length;
-const zombieKills = events.filter(e => normalizeType(e.type) === "KILL_ZOMBIE").length;
-const creeperKills = events.filter(e => normalizeType(e.type) === "KILL_CREEPER").length;
-const skeletonKills = events.filter(e => normalizeType(e.type) === "KILL_SKELETON").length;
+  const deaths = events.filter(e => normalizeType(e.type) === "PLAYER_DEATH").length;
+  const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
+  const debris = events.filter(e => normalizeType(e.type) === "ANCIENT_DEBRIS").length;
+  const zombieKills = events.filter(e => normalizeType(e.type) === "KILL_ZOMBIE").length;
+  const creeperKills = events.filter(e => normalizeType(e.type) === "KILL_CREEPER").length;
+  const skeletonKills = events.filter(e => normalizeType(e.type) === "KILL_SKELETON").length;
+
   return (
     <div className={styles.container}>
-
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
-        
-        {/* HEADER */}
         <header className={styles.header}>
           <h1 className={styles.headerTitle}>
-            🌍 {world ? world.name.toUpperCase() : "CARGANDO..."}
+            🌍 {world ? world.name.toUpperCase() : "MUNDO DETECTADO"}
           </h1>
-          <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>
+          <p className={styles.headerSubtitle}>
+            Real-Time Minecraft Hardcore Event Tracker & Dashboard
+          </p>
         </header>
 
-        
+        {/* FORMULARIO */}
         <div className={styles.statItem} style={{ marginBottom: "30px", borderLeft: "5px solid #ffd700" }}>
-          <h3 style={{marginTop: 0}}>➕ Registrar Evento Manual</h3>
+          <h3 style={{ marginTop: 0 }}>➕ Registrar Evento Manual</h3>
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <input className={styles.input} type="text" placeholder="Tipo (DEATH, DIAMOND...)" value={type} onChange={(e) => setType(e.target.value)} />
-            <input className={styles.input} type="text" placeholder="Descripción" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="X" value={x} onChange={(e) => setX(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="Y" value={y} onChange={(e) => setY(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="Z" value={z} onChange={(e) => setZ(e.target.value)} />
+            <input className={styles.input} type="text" placeholder="Tipo ( DEATH, DIAMOND... )" value={type} onChange={(e) => setType(e.target.value)} />
+                        <input
+              className={styles.input}
+              type="text"
+              placeholder="Tipo (DEATH, DIAMOND...)"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            />
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Descripción"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              className={styles.inputShort}
+              type="number"
+              placeholder="X"
+              value={x}
+              onChange={(e) => setX(e.target.value)}
+            />
+            <input
+              className={styles.inputShort}
+              type="number"
+              placeholder="Y"
+              value={y}
+              onChange={(e) => setY(e.target.value)}
+            />
+            <input
+              className={styles.inputShort}
+              type="number"
+              placeholder="Z"
+              value={z}
+              onChange={(e) => setZ(e.target.value)}
+            />
             <button className={styles.button} onClick={createEvent}>Agregar</button>
           </div>
         </div>
 
-       {/* --- GRID DE ESTADÍSTICAS --- */}
-<div className={styles.statsGrid}>
-  
-  <div className={styles.statItem} style={{ borderLeft: "5px solid #ff4d4d" }}>
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-      <div className={styles.statLabel}>CAÍDAS DEL OSO</div>
-      
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateAreas: '"icon"', 
-        justifyItems: 'center', 
-        alignItems: 'center', 
-        width: '40px', 
-        height: '40px' 
-      }}>
-        
-        <span style={{ gridArea: 'icon', fontSize: '2rem', zIndex: 1 }}>
-          🐻‍❄️
-        </span>
-        
-        <span style={{ 
-          gridArea: 'icon', 
-          fontSize: '1.2rem', 
-          zIndex: 2, 
-          marginTop: '5px', 
-          filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.4))' 
-        }}>
-          🕶️
-        </span>
-      </div>
-    </div>
-    <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{deaths}</div>
-  </div>
-
-  <div className={styles.statItem} style={{ borderLeft: "5px solid #00ffff" }}>
-    <div className={styles.statLabel}>DIAMANTES 💎</div>
-    <div className={styles.statValue} style={{ color: "#00ffff" }}>{diamonds}</div>
-  </div>
-
-  <div className={styles.statItem} style={{ borderLeft: "5px solid #ff9900" }}>
-    <div className={styles.statLabel}>NETHERITE 🔥</div>
-    <div className={styles.statValue} style={{ color: "#ff9900" }}>{debris}</div>
-  </div>
-
-  <div className={styles.statItem} style={{ borderLeft: "5px solid #55ff55" }}>
-    <div className={styles.statLabel}>ZOMBIES 🧟</div>
-    <div className={styles.statValue}>{zombieKills}</div>
-  </div>
-</div>
-{/* LISTA DE EVENTOS */}
-<div className={styles.eventList}>
-  {[...events]
-    .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
-    .map((e) => (
-      <div key={e._id} className={styles.card} style={{ borderLeft: `6px solid ${getColor(e.type)}` }}>
-        <div className={styles.eventInfo}>
-          
-          {/* CONTENEDOR DEL ICONO: Grid de Superposición */}
-          <div className={styles.eventIcon} style={{ 
-            display: 'grid', 
-            gridTemplateAreas: "icon", 
-            justifyItems: 'center', 
-            alignItems: 'center', 
-            width: '80px', 
-            height: '80px' 
-          }}>
-            {e.type === "PLAYER_DEATH" ? (
-              <>
-                
-                <span style={{ 
-                  gridArea: 'icon',
-                  fontSize: '3rem', 
-                  position: 'relative', 
-                  zIndex: 1 
-                }}>
-                  🐻‍❄️
-                </span>
-                
-                <span style={{ 
-                  gridArea: 'icon',
-                  fontSize: '2rem', 
-                  position: 'relative', 
-                  zIndex: 2,
-                  margin: '0', 
-                  padding: '0', 
-                  marginTop: '10px',
-                  filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))' 
-                }}>
-                  🕶️
-                </span>
-              </>
-            ) : (
-              <span style={{ fontSize: '2.5rem', gridArea: 'icon' }}>{getIcon(e.type)}</span>
-            )}
+        {/* ESTADÍSTICAS */}
+        <div className={styles.statsGrid}>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #ff4d4d" }}>
+            <div className={styles.statLabel}>CAÍDAS DEL OSO</div>
+            <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{deaths}</div>
           </div>
-
-          <div>
-            <h4 className={styles.eventTitle} style={{ color: getColor(e.type) }}>
-              {normalizeType(e.type).replace(/_/g, " ")}
-            </h4>
-            <p className={styles.eventDescription}>{getDescription(e)}</p>
-            <div className={styles.eventMeta}>
-              <span style={getDimensionStyle(e.dimension)}>{getDimensionName(e.dimension)}</span>
-              <span className={styles.coords}>X: {e.x} | Y: {e.y} | Z: {e.z}</span>
-              {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
-                <span style={{ color: "#aaa" }}> (OW: X:{e.x * 8} Z:{e.z * 8})</span>
-              )}
-            </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #00ffff" }}>
+            <div className={styles.statLabel}>DIAMANTES 💎</div>
+            <div className={styles.statValue} style={{ color: "#00ffff" }}>{diamonds}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #ff9900" }}>
+            <div className={styles.statLabel}>NETHERITE 🔥</div>
+            <div className={styles.statValue} style={{ color: "#ff9900" }}>{debris}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #55ff55" }}>
+            <div className={styles.statLabel}>ZOMBIES 🧟</div>
+            <div className={styles.statValue}>{zombieKills}</div>
           </div>
         </div>
 
-        <div className={styles.eventTimeContainer}>
-          <div className={styles.eventTime}>{formatDate(e.createdAt || e.date)}</div>
-        </div>
-      </div>
-    ))}
-</div>
+        {/* LISTA DE EVENTOS */}
+        <div className={styles.eventList}>
+          {[...events]
+            .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
+            .map((e) => (
+              <div key={e._id} className={styles.card} style={{ borderLeft: `6px solid ${getColor(e.type)}` }}>
+                <div className={styles.eventInfo}>
+                  <div className={styles.eventIcon} style={{
+                    display: 'grid',
+                    gridTemplateAreas: "icon",
+                    justifyItems: 'center',
+                    alignItems: 'center',
+                    width: '80px',
+                    height: '80px'
+                  }}>
+                    {e.type === "PLAYER_DEATH" ? (
+                      <>
+                        <span style={{ gridArea: 'icon', fontSize: '3rem', position: 'relative', zIndex: 1 }}>🐻‍❄️</span>
+                        <span style={{
+                          gridArea: 'icon',
+                          fontSize: '2rem',
+                          position: 'relative',
+                          zIndex: 2,
+                          marginTop: '10px',
+                          filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))'
+                        }}>🕶️</span>
+                      </>
+                    ) : (
+                      <span style={{ fontSize: '2.5rem', gridArea: 'icon' }}>{getIcon(e.type)}</span>
+                    )}
+                  </div>
 
+                  <div>
+                    <h4 className={styles.eventTitle} style={{ color: getColor(e.type) }}>
+                      {normalizeType(e.type).replace(/_/g, " ")}
+                    </h4>
+                    <p className={styles.eventDescription}>{getDescription(e)}</p>
+                    <div className={styles.eventMeta}>
+                      <span style={getDimensionStyle(e.dimension)}>{getDimensionName(e.dimension)}</span>
+                      <span className={styles.coords}>X: {e.x} | Y: {e.y} | Z: {e.z}</span>
+                      {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
+                        <span style={{ color: "#aaa" }}> (OW: X:{e.x * 8} Z:{e.z * 8})</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.eventTimeContainer}>
+                  <div className={styles.eventTime}>{formatDate(e.createdAt || e.date)}</div>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default World;
