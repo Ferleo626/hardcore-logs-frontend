@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { io } from "socket.io-client";
-
+import buttonStyles from "../styles/Button.module.css";
 import styles from "./World.module.css";
+
 
 function World() {
   const { id } = useParams();
@@ -203,7 +204,7 @@ function World() {
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
         <header className={styles.header}>
           <h1 className={styles.headerTitle}>
-            {loadingWorld ? "CARGANDO..." : world ? world.name.toUpperCase() : worldError ? "ERROR DE CONEXIÓN" : "MUNDO DETECTADO"}
+            {worldError && <button className={buttonStyles.buttonRetry} onClick={getWorldData}>🔄 Reintentar conexión</button>}
           </h1>
           {worldError && <button className={styles.button} onClick={getWorldData}>🔄 Reintentar conexión</button>}
           <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>

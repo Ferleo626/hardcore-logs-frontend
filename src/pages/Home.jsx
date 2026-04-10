@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import buttonStyles from "../styles/Button.module.css";
 
 // 🎨 Estilos
 const containerStyle = {
@@ -116,30 +117,16 @@ function Home() {
 
       {/* 🔥 ESTADO ERROR */}
       {!loading && error && (
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
-          <h1 style={{ color: "#ffc800", fontSize: "2rem", textShadow: "0 0 12px rgba(255,0,0,0.8)" }}>
-            ERROR DE CONEXIÓN
-          </h1>
+  <div style={{ textAlign: "center", marginBottom: "30px" }}>
+    <h1 style={{ color: "#ffc800", fontSize: "2rem", textShadow: "0 0 12px rgba(255,0,0,0.8)" }}>
+      ERROR DE CONEXIÓN
+    </h1>
 
-          <button
-            onClick={getWorlds}
-            style={{
-              padding: "12px 25px",
-              background: "#ffc800",
-              color: "#001030",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              marginTop: "10px",
-              boxShadow: "0 0 10px rgba(255,200,0,0.6)"
-            }}
-          >
-            🔄 REINTENTAR CONEXIÓN
-          </button>
-        </div>
-      )}
-
+    <button className={buttonStyles.buttonRetry} onClick={getWorlds}>
+      🔄 REINTENTAR CONEXIÓN
+    </button>
+  </div>
+)}
       {/* 🔥 CONTENIDO SOLO SI NO HAY ERROR */}
       {!loading && !error && (
         <>

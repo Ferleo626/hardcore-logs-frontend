@@ -1,0 +1,16 @@
+.buttonRetry {
+  padding: 12px 25px;
+  background: #ffc800;
+  color: #001030;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.6);
+  transition: all 0.2s ease;
+}
+
+.buttonRetry:hover {
+  box-shadow: 0 0 15px rgba(255, 200, 0, 0.9);
+}
