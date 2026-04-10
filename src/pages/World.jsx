@@ -203,13 +203,19 @@ function World() {
     <div className={styles.container}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
         <header className={styles.header}>
-          <h1 className={styles.headerTitle}>
-            {worldError && <button className={buttonStyles.buttonRetry} onClick={getWorldData}>🔄 Reintentar conexión</button>}
-          </h1>
-          {worldError && <button className={styles.button} onClick={getWorldData}>🔄 Reintentar conexión</button>}
-          <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>
-        </header>
+  <h1 className={styles.headerTitle}>
+    {loadingWorld ? "CARGANDO..." : world ? world.name.toUpperCase() : worldError ? "ERROR DE CONEXIÓN" : "MUNDO DETECTADO"}
+  </h1>
 
+  {/* BOTÓN DE REINTENTAR */}
+  {worldError && (
+    <button className={buttonStyles.buttonRetry} onClick={getWorldData}>
+      🔄 Reintentar conexión
+    </button>
+  )}
+
+  <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>
+</header>
         {/* FORMULARIO DE REGISTRO MANUAL */}
         <div className={styles.statItem} style={{ marginBottom: "30px", borderLeft: "5px solid #ffd700" }}>
           <h3 style={{ marginTop: 0 }}>➕ Registrar Evento Manual</h3>
