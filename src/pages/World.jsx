@@ -68,8 +68,8 @@ function World() {
       case "PLAYER_DEATH": return "Murió 💀 (El Oso cayó)";
       case "MINED_DIAMOND": return "Encontró diamante 💎";
       case "ANCIENT_DEBRIS": return "Encontró Ancient Debris 🔥";
-      case "THE_NETHER": return "Entró al Nether 🔥";
-      case "THE_END": return "Entró al End 🌌";
+      case "NETHER": return "Entró al Nether 🔥";
+      case "END": return "Entró al End 🌌";
       case "DRAGON": return "Mató al dragón 🐉";
       case "KILL_ZOMBIE": return "Mató un Zombie 🧟";
       case "KILL_CREEPER": return "Mató un Creeper 💣";
@@ -194,6 +194,11 @@ function World() {
   const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
   const debris = events.filter(e => normalizeType(e.type) === "ANCIENT_DEBRIS").length;
   const zombieKills = events.filter(e => normalizeType(e.type) === "KILL_ZOMBIE").length;
+  const creeperKills = events.filter(e => normalizeType(e.type) === "KILL_CREEPER").length;
+  const skeletonKills = events.filter(e => normalizeType(e.type) === "KILL_SKELETON").length;
+  const dragon = events.filter(e => normalizeType(e.type) === "DRAGON").length;
+  const totem = events.filter(e => normalizeType(e.type) === "TOTEM").length;
+  const endermanKills = events.filter(e => normalizeType(e.type) === "KILL_ENDERMAN").length;
 
   // --- INICIALIZACIÓN ---
   useEffect(() => { getWorldData(); }, [id]);
@@ -249,6 +254,26 @@ function World() {
           <div className={styles.statItem} style={{ borderLeft: "5px solid #55ff55" }}>
             <div className={styles.statLabel}>ZOMBIES 🧟</div>
             <div className={styles.statValue}>{zombieKills}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #a64dff" }}>
+            <div className={styles.statLabel}>DRAGONES 🐉</div>
+            <div className={styles.statValue} style={{ color: "#a64dff" }}>{dragon}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #ff4d4d" }}>
+            <div className={styles.statLabel}>CREEPERS 💣</div>
+            <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{creeperKills}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #00ffff" }}>
+            <div className={styles.statLabel}>ENDERMAN 🤖</div>
+            <div className={styles.statValue} style={{ color: "#00ffff" }}>{endermanKills}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #a64dff" }}>
+            <div className={styles.statLabel}>ESQUELETOS 🏹</div>
+            <div className={styles.statValue} style={{ color: "#a64dff" }}>{skeletonKills}</div>
+          </div>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #ffd700" }}>
+            <div className={styles.statLabel}>TOTEMS 🧿</div>
+            <div className={styles.statValue} style={{ color: "#ffd700" }}>{totem}</div>
           </div>
         </div>
 
