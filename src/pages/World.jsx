@@ -32,7 +32,7 @@ function World() {
     if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
     if (t.includes("SKELETON")) return "KILL_SKELETON";
     if (t.includes("CREEPER")) return "KILL_CREEPER";
-    if (t.includes("NETHER")) return "NETHER";
+    if (t.includes("THE_NETHER")) return "THE_NETHER";
     if (t.includes("END")) return "END";
     if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
     return t;
@@ -68,7 +68,7 @@ function World() {
       case "PLAYER_DEATH": return "Murió 💀 (El Oso cayó)";
       case "MINED_DIAMOND": return "Encontró diamante 💎";
       case "ANCIENT_DEBRIS": return "Encontró Ancient Debris 🔥";
-      case "NETHER": return "Entró al Nether 🔥";
+      case "THE_NETHER": return "Entró al Nether 🔥";
       case "END": return "Entró al End 🌌";
       case "DRAGON": return "Mató al dragón 🐉";
       case "KILL_ZOMBIE": return "Mató un Zombie 🧟";
@@ -94,7 +94,7 @@ function World() {
   const getDimensionName = (dim) => {
     if (!dim) return "🌿 Overworld";
     const d = dim.toUpperCase();
-    if (d.includes("NETHER")) return "🔥 Nether";
+    if (d.includes("THE_NETHER")) return "🔥 Nether";
     if (d.includes("END")) return "🌌 End";
     return "🌿 Overworld";
   };
