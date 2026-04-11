@@ -51,7 +51,7 @@ function World() {
       case "PLAYER_DEATH": return "🐻‍❄️🕶️";
       case "MINED_DIAMOND": return "💎";
       case "ANCIENT_DEBRIS": return "🔥";
-      case "NETHER": return "🌋";
+      case "THE_NETHER": return "🌋";
       case "END": return "🌌";
       case "DRAGON": return "🐉";
       case "KILL_ZOMBIE": return "🧟";
