@@ -69,7 +69,7 @@ function World() {
       case "MINED_DIAMOND": return "Encontró diamante 💎";
       case "ANCIENT_DEBRIS": return "Encontró Ancient Debris 🔥";
       case "NETHER": return "Entró al Nether 🔥";
-      case "END": return "Entró al End 🌌";
+      case "THE_END": return "Entró al End 🌌";
       case "DRAGON": return "Mató al dragón 🐉";
       case "KILL_ZOMBIE": return "Mató un Zombie 🧟";
       case "KILL_CREEPER": return "Mató un Creeper 💣";
