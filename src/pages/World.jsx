@@ -25,18 +25,24 @@ function World() {
 
   // --- FUNCIONES AUXILIARES ---
   const normalizeType = (type) => {
-    if (!type) return "UNKNOWN";
-    const t = type.toUpperCase().replace(/\s+/g, '_');
-    if (["DEATH", "PLAYER_DEATH"].includes(t)) return "PLAYER_DEATH";
-    if (["DIAMOND", "MINED_DIAMOND"].includes(t)) return "MINED_DIAMOND";
-    if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
-    if (t.includes("SKELETON")) return "KILL_SKELETON";
-    if (t.includes("CREEPER")) return "KILL_CREEPER";
-    if (t === "NETHER" || t === "THE_NETHER") return "NETHER";
-    if (t.includes("END")) return "END";
-    if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
-    return t;
-  };
+  if (!type) return "UNKNOWN";
+
+  const t = type.toUpperCase().replace(/\s+/g, '_');
+
+  if (["DEATH", "PLAYER_DEATH"].includes(t)) return "PLAYER_DEATH";
+  if (["DIAMOND", "MINED_DIAMOND"].includes(t)) return "MINED_DIAMOND";
+  if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
+  if (t.includes("SKELETON")) return "KILL_SKELETON";
+  if (t.includes("CREEPER")) return "KILL_CREEPER";
+
+  // 🔥 FIX REAL
+  if (t.includes("NETHER")) return "NETHER";
+
+  if (t.includes("END")) return "END";
+  if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
+
+  return t;
+};
 
   const formatDate = (date) => {
     if (!date) return "Fecha desconocida";
