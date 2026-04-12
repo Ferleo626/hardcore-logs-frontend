@@ -37,7 +37,7 @@ function World() {
 
   // 🔥 FIX REAL
   if (t.includes("NETHER")) return "NETHER";
-
+  if (t.includes("OVERWORLD")) return "ENTER_OVERWORLD";
   if (t.includes("END")) return "END";
   if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
 
@@ -70,21 +70,41 @@ function World() {
   };
 
   const getDescription = (event) => {
-    switch (event.type) {
-      case "PLAYER_DEATH": return "Murió 💀 (El Oso cayó)";
-      case "MINED_DIAMOND": return "Encontró diamante 💎";
-      case "ANCIENT_DEBRIS": return "Encontró Ancient Debris 🔥";
-      case "NETHER": return "Entró al Nether 🔥";
-      case "THE_NETHER": return "Entró al Nether 🔥";
-      case "END": return "Entró al End 🌌";
-      case "DRAGON": return "Mató al dragón 🐉";
-      case "KILL_ZOMBIE": return "Mató un Zombie 🧟";
-      case "KILL_CREEPER": return "Mató un Creeper 💣";
-      case "KILL_SKELETON": return "Mató un Esqueleto 🏹";
-      case "LOW_HP": return "Estuvo al borde de la muerte ❤️";
-      default: return event.description || "Evento detectado";
-    }
-  };
+  const player = event.player || "Jugador";
+  const type = normalizeType(event.type);
+
+  switch (type) {
+    case "PLAYER_DEATH":
+      return `${player} murió 💀`;
+
+    case "NETHER":
+      return `${player} entró al Nether 🔥`;
+
+    case "END":
+      return `${player} entró al End 🌌`;
+
+    case "ENTER_OVERWORLD":
+      return `${player} entró al Overworld 🌿`;
+
+    case "MINED_DIAMOND":
+      return `${player} encontró diamante 💎`;
+
+    case "ANCIENT_DEBRIS":
+      return `${player} encontró Ancient Debris 🔥`;
+
+    case "KILL_ZOMBIE":
+      return `${player} mató un Zombie 🧟`;
+
+    case "KILL_CREEPER":
+      return `${player} mató un Creeper 💣`;
+
+    case "KILL_SKELETON":
+      return `${player} mató un Esqueleto 🏹`;
+
+    default:
+      return event.description || "Evento detectado";
+  }
+};
 
   const getColor = (type) => {
     switch (type) {
@@ -310,10 +330,11 @@ function World() {
                   </div>
 
                   <div>
-                    <h4 className={styles.eventTitle} style={{ color: getColor(e.type) }}>
-                      {normalizeType(e.type).replace(/_/g, " ")}
-                    </h4>
-                    <p className={styles.eventDescription}>{getDescription(e)}</p>
+                    <h4 className={styles.eventTitle}>
+                         {e.player || "Jugador"}
+                           </h4>
+
+                     <p className={styles.eventDescription}>{getDescription(e)}</p>
                     <div className={styles.eventMeta}>
                       <span style={getDimensionStyle(e.dimension)}>{getDimensionName(e.dimension)}</span>
                       <span className={styles.coords}>X: {e.x} | Y: {e.y} | Z: {e.z}</span>
