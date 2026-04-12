@@ -32,7 +32,7 @@ function World() {
     if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
     if (t.includes("SKELETON")) return "KILL_SKELETON";
     if (t.includes("CREEPER")) return "KILL_CREEPER";
-    if (t.includes("NETHER")) return "THE_NETHER";
+    if (t === "NETHER" || t === "THE_NETHER") return "NETHER";
     if (t.includes("END")) return "END";
     if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
     return t;
@@ -299,7 +299,7 @@ function World() {
                         <span style={{ gridArea: 'icon', fontSize: '2rem', position: 'relative', zIndex: 2, marginTop: '10px', filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))' }}>🕶️</span>
                       </>
                     ) : (
-                      <span style={{ fontSize: '2.5rem', gridArea: 'icon' }}>{getIcon(e.type)}</span>
+                      <span style={{ fontSize: '2.5rem', gridArea: 'icon' }}>{getIcon(normalizeType(e.type))}</span>
                     )}
                   </div>
 
