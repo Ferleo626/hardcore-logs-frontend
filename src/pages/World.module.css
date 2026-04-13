@@ -17,11 +17,12 @@
 }
 
 .headerTitle {
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: #ffc800;
-  text-shadow: 0 0 10px rgba(255, 200, 0, 0.7);
-  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(255, 200, 0, 0.8), 2px 2px 0px #000;
+  letter-spacing: 5px;
   margin: 0;
+  text-transform: uppercase;
 }
 
 .headerSubtitle {
@@ -33,31 +34,53 @@
 }
 
 /* --- Formulario de Registro Manual --- */
+.manualEventForm {
+  background: rgba(0, 43, 122, 0.5);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 200, 0, 0.3);
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+}
+
 .input {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid #444;
-  color: white;
+  background: #000d26;
+  border: 1px solid #334155;
+  color: #fff;
   padding: 10px;
   border-radius: 8px;
   flex: 1;
   outline: none;
+  transition: all 0.3s ease;
 }
 
 .input:focus {
   border-color: #ffc800;
-  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.2);
+  background: #001640;
 }
 
 .inputShort {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid #444;
-  color: white;
+  background: #000d26;
+  border: 1px solid #334155;
+  color: #fff;
   padding: 10px;
   border-radius: 8px;
   width: 70px;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
+.inputShort:focus {
+  border-color: #ffc800;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.2);
+  background: #001640;
+}
+
+/* --- Botón --- */
 .button {
   background: #0055ff;
   color: white;
@@ -76,6 +99,18 @@
   transform: scale(1.05);
 }
 
+/* --- Run Summary --- */
+.runSummary {
+  background: rgba(255, 200, 0, 0.05);
+  border: 1px solid rgba(255, 200, 0, 0.2);
+  border-radius: 12px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
 /* --- Stats Grid --- */
 .statsGrid {
   display: grid;
@@ -85,9 +120,9 @@
 }
 
 .statItem {
-  background: #002b7a;
-  padding: 25px;
-  border-radius: 15px;
+  background: linear-gradient(145deg, #002b7a, #001f5c);
+  padding: 15px;
+  border-radius: 12px;
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -108,10 +143,11 @@
 }
 
 .statValue {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 900;
   color: #fff;
   line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 /* --- Lista de Eventos --- */
@@ -123,7 +159,7 @@
 
 .card {
   background: rgba(10, 10, 10, 0.85);
-  padding: 20px;
+  padding: 12px 20px;
   border-radius: 14px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
@@ -132,6 +168,7 @@
   align-items: center;
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 6px;
 }
 
 .card:hover {
@@ -145,36 +182,45 @@
   align-items: center;
 }
 
+/* Icono */
 .eventIcon {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  min-width: 70px;
+  display: grid;
+  place-items: center;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
 }
 
 .eventTitle {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   letter-spacing: 1.5px;
   font-weight: 800;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .eventDescription {
-  margin: 6px 0;
-  font-size: 0.95rem;
+  margin: 2px 0;
+  font-size: 0.9rem;
   color: #ccc;
+  opacity: 0.9;
 }
 
 .eventMeta {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   display: flex;
   gap: 15px;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
-.coords {
-  color: #777;
-  font-family: monospace;
+.coordsOW {
+  color: #64748b;
+  font-style: italic;
+  font-size: 0.75rem;
 }
 
 .eventTimeContainer {
@@ -193,65 +239,48 @@
   opacity: 0.5;
 }
 
+/* --- Botón eliminar --- */
+.deleteBtn {
+  background: transparent;
+  color: rgba(255, 77, 77, 0.5);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0 10px;
+}
+
+.deleteBtn:hover {
+  color: #ff4d4d;
+}
+
+/* --- Empty --- */
 .emptyState {
   text-align: center;
   margin-top: 100px;
   opacity: 0.4;
 }
-.eventIcon {
-  font-size: 2.8rem;
-  min-width: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  /* NUEVA LÓGICA DE ALINEACIÓN */
-  display: grid;
-  grid-template-areas: "icon";
-  justify-items: center;
-  align-items: center;
-}
-
-.eventIcon span {
-  grid-area: icon;
-  line-height: 1; 
-  margin: 0;
-  padding: 0;
-}
-/* 🔥 entrada suave */
+/* --- Animaciones --- */
 .fadeIn {
   animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ✨ glow para evento nuevo */
 .glow {
   animation: glow 1s ease-out;
 }
 
 @keyframes glow {
-  0% {
-    box-shadow: 0 0 0px rgba(255,255,255,0);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(255,255,255,0.5);
-  }
-  100% {
-    box-shadow: 0 0 0px rgba(255,255,255,0);
-  }
+  0% { box-shadow: 0 0 0px rgba(255,255,255,0); }
+  50% { box-shadow: 0 0 25px rgba(255,255,255,0.5); }
+  100% { box-shadow: 0 0 0px rgba(255,255,255,0); }
 }
 
-/* 💥 pop para eventos importantes */
 .pop {
   animation: pop 0.3s ease;
 }
@@ -260,4 +289,10 @@
   0% { transform: scale(0.9); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+/* Glow especial */
+.glowCard {
+  box-shadow: 0 0 20px rgba(255, 200, 0, 0.4);
+  border: 1px solid #ffc800;
 }

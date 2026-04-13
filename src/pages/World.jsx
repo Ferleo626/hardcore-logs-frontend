@@ -54,7 +54,7 @@ function World() {
 
   const getIcon = (type) => {
     switch (type) {
-      case "PLAYER_DEATH": return "🐻‍❄️🕶️";
+      case "PLAYER_DEATH": return "☠️";
       case "MINED_DIAMOND": return "💎";
       case "ANCIENT_DEBRIS": return "🔥";
       case "NETHER": return "🌋";
@@ -75,7 +75,7 @@ function World() {
 
   switch (type) {
     case "PLAYER_DEATH":
-      return `${player} murió 💀`;
+      return `${player} murió ☠️`;
 
     case "NETHER":
       return `${player} entró al Nether 🔥`;
