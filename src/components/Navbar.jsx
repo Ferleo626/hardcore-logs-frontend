@@ -8,7 +8,7 @@ function Navbar() {
     navigate("/login");
   };
 
-  // --- ESTILOS MÍSTICOS (AZUL Y ORO) ---
+  // --- NAVBAR BASE (igual que el tuyo) ---
   const navStyle = {
     padding: "12px 25px",
     background: "linear-gradient(90deg, #001030 0%, #001f5c 100%)",
@@ -23,32 +23,33 @@ function Navbar() {
     zIndex: 1000
   };
 
-  const buttonStyle = {
-    background: "rgba(255, 200, 0, 0.1)",
-    border: "1px solid #ffc800",
-    color: "#ffc800",
-    padding: "8px 18px",
-    borderRadius: "8px",
+  // --- NUEVO ESTILO PIXEL ---
+  const pixelButton = {
+    fontFamily: "'VT323', monospace",
+    fontSize: "1.2rem",
+    padding: "8px 16px",
+    border: "3px solid #000",
     cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: "0.9rem",
-    textTransform: "uppercase",
-    transition: "all 0.3s ease",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px"
+    color: "#fff",
+    imageRendering: "pixelated",
+    boxShadow: "inset -3px -3px 0px #222, inset 3px 3px 0px #888",
+    marginLeft: "10px",
+    transition: "all 0.15s ease"
+  };
+
+  const homeStyle = {
+    ...pixelButton,
+    background: "#5a5a5a"
   };
 
   const logoutStyle = {
-    ...buttonStyle,
-    border: "1px solid #ff4d4d",
-    color: "#ff4d4d",
-    background: "rgba(255, 77, 77, 0.1)"
+    ...pixelButton,
+    background: "#8b0000"
   };
 
   return (
     <nav style={navStyle}>
-      {/* Lado izquierdo: Logo o Título con Oso Xeneize Blindado */}
+      {/* LOGO */}
       <div style={{ 
         color: "#ffc800", 
         fontWeight: "900", 
@@ -59,7 +60,8 @@ function Navbar() {
         gap: "10px"
       }}>
         <span>HARDCORE LOGS</span>
-        {/* Contenedor del Oso Xeneize Blindado (con pegamento para gafas) */}
+
+        {/* OSO CON GAFAS */}
         <span style={{ 
           display: 'grid', 
           gridTemplateAreas: '"icon"', 
@@ -69,11 +71,9 @@ function Navbar() {
           height: '30px',
           marginLeft: '5px' 
         }}>
-          {/* OSO POLAR - Capa base */}
           <span style={{ gridArea: 'icon', fontSize: '1.5rem', zIndex: 1 }}>
             🐻‍❄️
           </span>
-          {/* GAFAS DE SOL - Capa superior encimada */}
           <span style={{ 
             gridArea: 'icon', 
             fontSize: '1rem', 
@@ -86,36 +86,36 @@ function Navbar() {
         </span>
       </div>
 
-      {/* Lado derecho: Botones de acción */}
+      {/* BOTONES */}
       <div style={{ display: "flex", gap: "12px" }}>
-        <button 
-          style={buttonStyle} 
+        <button
+          style={homeStyle}
           onClick={() => navigate("/")}
           onMouseOver={(e) => {
-            e.target.style.background = "#ffc800";
-            e.target.style.color = "#001030";
+            e.target.style.transform = "scale(1.05)";
+            e.target.style.filter = "brightness(1.2)";
           }}
           onMouseOut={(e) => {
-            e.target.style.background = "rgba(255, 200, 0, 0.1)";
-            e.target.style.color = "#ffc800";
+            e.target.style.transform = "scale(1)";
+            e.target.style.filter = "brightness(1)";
           }}
         >
-          🏠 Home
+          🏠 HOME
         </button>
 
-        <button 
-          style={logoutStyle} 
+        <button
+          style={logoutStyle}
           onClick={logout}
           onMouseOver={(e) => {
-            e.target.style.background = "#ff4d4d";
-            e.target.style.color = "white";
+            e.target.style.transform = "scale(1.05)";
+            e.target.style.filter = "brightness(1.2)";
           }}
           onMouseOut={(e) => {
-            e.target.style.background = "rgba(255, 77, 77, 0.1)";
-            e.target.style.color = "#ff4d4d";
+            e.target.style.transform = "scale(1)";
+            e.target.style.filter = "brightness(1)";
           }}
         >
-          🚪 Salir
+          🚪 SALIR
         </button>
       </div>
     </nav>
