@@ -161,33 +161,35 @@
  .card { 
   background-image: url("/textures/azul_oscuro.png");
   background-size: cover;
-  padding: 12px 20px;
+  padding: 16px 20px;
   border: 3px solid #000;
-
-  /* EFECTO BOTÓN 3D */
-  box-shadow: 
-    inset -4px -4px 0px rgba(0,0,0,0.6),
-    inset 4px 4px 0px rgba(255,255,255,0.08),
-    0 4px 0px #000;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 0.1s;
+
+  /* 🔥 CLAVE: EFECTO 3D REAL */
+  box-shadow:
+    inset -5px -5px 0px rgba(0,0,0,0.5),
+    inset 5px 5px 0px rgba(255,255,255,0.06);
+
+  transition: all 0.08s ease;
+  cursor: pointer;
 }
   
 .card:hover {
-  transform: translateY(2px);
-  box-shadow: 
-    inset -2px -2px 0px rgba(0,0,0,0.6),
-    inset 2px 2px 0px rgba(255,255,255,0.08),
-    0 2px 0px #000;
+  transform: scale(1.02); /* igual que statItem */
+  filter: brightness(1.15);
 }
 
+.card:active {
+  transform: scale(0.98);
+  filter: brightness(0.9);
+}
 /* EVENTO INFO */
 .eventInfo {
   display: flex;
-  gap: 20px;
+  gap: 25px; /* antes 20px */
   align-items: center;
 }
 
@@ -208,9 +210,10 @@
 .coordsOW {
   color: #64748b;
   font-style: italic;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  margin-top: 6px; /* 👈 separa del texto de arriba */
+  letter-spacing: 1px;
 }
-
 /* TIEMPO */
 .eventTime {
   font-size: 1.3rem;
