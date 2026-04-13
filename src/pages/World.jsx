@@ -34,7 +34,7 @@ function World() {
   if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
   if (t.includes("SKELETON")) return "KILL_SKELETON";
   if (t.includes("CREEPER")) return "KILL_CREEPER";
-
+  if (t.includes("ENDERMAN")) return "KILL_ENDERMAN";
   // 🔥 FIX REAL
   if (t.includes("NETHER")) return "NETHER";
   if (t.includes("OVERWORLD")) return "ENTER_OVERWORLD";
@@ -114,6 +114,7 @@ function World() {
       case "ANCIENT_DEBRIS": return "#ff9900";
       case "DRAGON": return "#a64dff";
       case "TOTEM": return "#ffd700";
+      case "KILL_ENDERMAN": return "#000000";
       default: return "white";
     }
   };
@@ -181,53 +182,51 @@ function World() {
     }
   };
 
-  // --- SOCKET.IO ---
-  useEffect(() => {
-    if (!id) return;
-
-    const socketUrl = import.meta.env.VITE_API_URL
-      ? "https://hardcore-logs-backend.onrender.com"
-      : "http://localhost:4000";
-
-    const newSocket = io(socketUrl, {
-      withCredentials: true,
-      transports: ["websocket", "polling"]
-    });
+ // --- SOCKET.IO ---
 useEffect(() => {
-  if (!newEventId) return;
+  if (!id) return;
 
-  const timer = setTimeout(() => {
-    setNewEventId(null);
-  }, 1000);
+  const socketUrl = import.meta.env.VITE_API_URL
+    ? "https://hardcore-logs-backend.onrender.com"
+    : "http://localhost:4000";
 
-  return () => clearTimeout(timer);
-}, [newEventId]);
+  const newSocket = io(socketUrl, {
+    withCredentials: true,
+    transports: ["websocket", "polling"]
+  });
 
-    newSocket.on("connect", () => console.log("✅ Socket Conectado a:", socketUrl));
-    setSocket(newSocket);
+  newSocket.on("connect", () =>
+    console.log("✅ Socket Conectado a:", socketUrl)
+  );
 
-    return () => {
-      if (newSocket) newSocket.disconnect();
-    };
-  }, [id]);
+  setSocket(newSocket);
 
-  useEffect(() => {
-    if (!socket) return;
+  return () => {
+    newSocket.disconnect();
+  };
+}, [id]);
 
-    const handleNewEvent = (event) => {
-  if (event.worldId !== id) return; // 🔥 FILTRO CLAVE
+// --- LISTENER DE EVENTOS ---
+useEffect(() => {
+  if (!socket) return;
 
-  console.log("🔥 EVENTO REAL:", event);
-  setEvents(prev => {
-  setNewEventId(event._id);
-  return [event, ...prev];
-});
-};
-    socket.on("newEvent", handleNewEvent);
+  const handleNewEvent = (event) => {
+    if (event.worldId !== id) return; // 🔥 FILTRO CLAVE
 
-    return () => socket.off("newEvent", handleNewEvent);
-  }, [socket]);
+    console.log("🔥 EVENTO REAL:", event);
 
+    setEvents((prev) => {
+      setNewEventId(event._id);
+      return prev.some(e => e._id === event._id) ? prev: [event, ...prev];
+    });
+  };
+
+  socket.on("newEvent", handleNewEvent);
+
+  return () => {
+    socket.off("newEvent", handleNewEvent);
+  };
+}, [socket, id]);
 const sortedEvents = [...events].sort(
   (a, b) => new Date(a.createdAt || a.date) - new Date(b.createdAt || b.date)
 );
