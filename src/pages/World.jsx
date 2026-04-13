@@ -216,6 +216,39 @@ function World() {
     return () => socket.off("newEvent", handleNewEvent);
   }, [socket]);
 
+const sortedEvents = [...events].sort(
+  (a, b) => new Date(a.createdAt || a.date) - new Date(b.createdAt || b.date)
+);
+
+const firstEvent = sortedEvents[0];
+const lastEvent = sortedEvents[sortedEvents.length - 1];
+
+const getDuration = () => {
+  if (!firstEvent || !lastEvent) return "0m";
+
+  const start = new Date(firstEvent.createdAt || firstEvent.date);
+  const end = new Date(lastEvent.createdAt || lastEvent.date);
+
+  const diffMs = end - start;
+  const minutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(minutes / 60);
+
+  return hours > 0 ? `${hours}h ${minutes % 60}m` : `${minutes}m`;
+};
+
+const lastDimension = lastEvent?.dimension || "OVERWORLD";
+
+const isImportantEvent = (type) => {
+  const t = normalizeType(type);
+  return [
+    "PLAYER_DEATH",
+    "DRAGON",
+    "TOTEM",
+    "NETHER",
+    "END"
+  ].includes(t);
+};
+
   // --- CONTADORES ---
   const deaths = events.filter(e => normalizeType(e.type) === "PLAYER_DEATH").length;
   const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
@@ -260,7 +293,25 @@ function World() {
             <button className={styles.button} onClick={createEvent}>Agregar</button>
           </div>
         </div>
+<div style={{
+  background: "rgba(0,0,0,0.6)",
+  padding: "20px",
+  borderRadius: "12px",
+  marginBottom: "30px",
+  border: "2px solid #ffc800",
+  boxShadow: "0 0 15px rgba(255,200,0,0.3)"
+}}>
+  <h3 style={{ color: "#ffc800", marginBottom: "10px" }}>
+    🧭 Resumen de la run
+  </h3>
 
+  <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+    <span>⏱ {getDuration()}</span>
+    <span>💀 {deaths}</span>
+    <span>💎 {diamonds}</span>
+    <span>{getDimensionName(lastDimension)}</span>
+  </div>
+</div>
         {/* GRID DE ESTADÍSTICAS */}
         <div className={styles.statsGrid}>
           <div className={styles.statItem} style={{ borderLeft: "5px solid #ff4d4d" }}>
@@ -291,7 +342,7 @@ function World() {
             <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{creeperKills}</div>
           </div>
           <div className={styles.statItem} style={{ borderLeft: "5px solid #00ffff" }}>
-            <div className={styles.statLabel}>ENDERMAN 🤖</div>
+            <div className={styles.statLabel}>ENDERMAN 👤</div>
             <div className={styles.statValue} style={{ color: "#00ffff" }}>{endermanKills}</div>
           </div>
           <div className={styles.statItem} style={{ borderLeft: "5px solid #a64dff" }}>
@@ -299,58 +350,131 @@ function World() {
             <div className={styles.statValue} style={{ color: "#a64dff" }}>{skeletonKills}</div>
           </div>
           <div className={styles.statItem} style={{ borderLeft: "5px solid #ffd700" }}>
-            <div className={styles.statLabel}>TOTEMS 🧿</div>
+            <div className={styles.statLabel}>TOTEMS 🗿</div>
             <div className={styles.statValue} style={{ color: "#ffd700" }}>{totem}</div>
           </div>
         </div>
 
         {/* LISTA DE EVENTOS */}
-        <div className={styles.eventList}>
-          {[...events]
-            .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
-            .map((e) => (
-              <div key={e._id} className={styles.card} style={{ borderLeft: `6px solid ${getColor(e.type)}` }}>
-                <div className={styles.eventInfo}>
-                  <div className={styles.eventIcon} style={{
-                    display: 'grid',
-                    gridTemplateAreas: "icon",
-                    justifyItems: 'center',
-                    alignItems: 'center',
-                    width: '80px',
-                    height: '80px'
-                  }}>
-                    {e.type === "PLAYER_DEATH" ? (
-                      <>
-                        <span style={{ gridArea: 'icon', fontSize: '3rem', position: 'relative', zIndex: 1 }}>🐻‍❄️</span>
-                        <span style={{ gridArea: 'icon', fontSize: '2rem', position: 'relative', zIndex: 2, marginTop: '10px', filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))' }}>🕶️</span>
-                      </>
-                    ) : (
-                      <span style={{ fontSize: '2.5rem', gridArea: 'icon' }}>{getIcon(normalizeType(e.type))}</span>
+       <div className={styles.eventList}>
+  <div style={{ position: "relative", paddingLeft: "30px" }}>
+    
+    {/* línea vertical del timeline */}
+    <div style={{
+      position: "absolute",
+      left: "10px",
+      top: 0,
+      bottom: 0,
+      width: "2px",
+      background: "rgba(255,255,255,0.2)"
+    }} />
+
+    {[...events]
+      .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
+      .map((e) => {
+        const important = isImportantEvent(e.type);
+
+        return (
+          <div
+            key={e._id}
+            style={{
+              position: "relative",
+              marginBottom: "20px",
+              transition: "0.3s"
+            }}
+          >
+            
+            {/* punto del timeline */}
+            <div style={{
+              position: "absolute",
+              left: "-22px",
+              top: "30px",
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              background: important ? "#ffc800" : "#888",
+              boxShadow: important ? "0 0 10px #ffc800" : "none"
+            }} />
+
+            <div
+              className={styles.card}
+              style={{
+                borderLeft: `6px solid ${getColor(e.type)}`,
+                transform: important ? "scale(1.03)" : "scale(1)",
+                boxShadow: important
+                  ? "0 0 20px rgba(255,200,0,0.25)"
+                  : "none",
+                transition: "0.3s"
+              }}
+            >
+              
+              <div className={styles.eventInfo}>
+                
+                {/* ICONO */}
+                <div className={styles.eventIcon}>
+                  {e.type === "PLAYER_DEATH" ? (
+                    <>
+                      <span style={{ fontSize: "3rem", position: "relative", zIndex: 1 }}>
+                        🐻‍❄️
+                      </span>
+                      <span style={{
+                        fontSize: "2rem",
+                        position: "absolute",
+                        marginTop: "10px",
+                        filter: "drop-shadow(0 0 5px rgba(255,255,255,0.4))"
+                      }}>
+                        🕶️
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: important ? "3rem" : "2.5rem" }}>
+                      {getIcon(normalizeType(e.type))}
+                    </span>
+                  )}
+                </div>
+
+                {/* INFO */}
+                <div>
+                  <h4 className={styles.eventTitle}>
+                    {e.player || "Jugador"}
+                  </h4>
+
+                  <p className={styles.eventDescription}>
+                    {getDescription(e)}
+                  </p>
+
+                  <div className={styles.eventMeta}>
+                    <span style={getDimensionStyle(e.dimension)}>
+                      {getDimensionName(e.dimension)}
+                    </span>
+
+                    <span className={styles.coords}>
+                      X: {e.x} | Y: {e.y} | Z: {e.z}
+                    </span>
+
+                    {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
+                      <span style={{ color: "#aaa" }}>
+                        {" "} (OW: X:{e.x * 8} Z:{e.z * 8})
+                      </span>
                     )}
                   </div>
-
-                  <div>
-                    <h4 className={styles.eventTitle}>
-                         {e.player || "Jugador"}
-                           </h4>
-
-                     <p className={styles.eventDescription}>{getDescription(e)}</p>
-                    <div className={styles.eventMeta}>
-                      <span style={getDimensionStyle(e.dimension)}>{getDimensionName(e.dimension)}</span>
-                      <span className={styles.coords}>X: {e.x} | Y: {e.y} | Z: {e.z}</span>
-                      {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
-                        <span style={{ color: "#aaa" }}> (OW: X:{e.x * 8} Z:{e.z * 8})</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.eventTimeContainer}>
-                  <div className={styles.eventTime}>{formatDate(e.createdAt || e.date)}</div>
                 </div>
               </div>
-            ))}
-        </div>
+
+              {/* TIME */}
+              <div className={styles.eventTimeContainer}>
+                <div className={styles.eventTime}>
+                  {formatDate(e.createdAt || e.date)}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        );
+      })}
+  </div>
+</div>
+
       </div>
     </div>
   );
