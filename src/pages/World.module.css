@@ -159,7 +159,7 @@
   transition: 0.2s;
 } */
    .card {
-  background-image: url("/textures/wool_blue.png");
+  background-image: url("/textures/azul_oscuro.png");
   background-size: cover;
 
   border: 3px solid #3a6ea5;
