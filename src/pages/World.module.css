@@ -2,7 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 .container {
-  background: radial-gradient(circle at center, #001f5c 0%, #001030 100%);
+  background-image: url("/textures/azul_oscuro.png");
+  background-repeat: repeat;
+  background-size: auto;
   min-height: 100vh;
   color: #f0f0f0;
   font-family: 'VT323', monospace;
@@ -108,7 +110,7 @@
 }
 
 .statItem {
-  background-image: url("/textures/azul_oscuro.png");
+  
   /* background: #3c4454; */
   border: 3px solid #000;
   border-left: 10px solid;
@@ -150,7 +152,7 @@
 
 /* CARD UNIFICADA */
  .card { 
-  background-image: url("/textures/azul_oscuro.png");
+  
   background-size: cover;
   padding: 12px 20px;
   border: 3px solid #000;

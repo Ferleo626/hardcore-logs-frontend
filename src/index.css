@@ -52,10 +52,8 @@
 }
 
 body {
-  margin: 0;
-  background-color: #ffc800;
-  font-family: Arial, sans-serif;
-
+  background-image: url("/textures/azul_oscuro.png");
+  background-repeat: repeat;
 }
 
 #root {
