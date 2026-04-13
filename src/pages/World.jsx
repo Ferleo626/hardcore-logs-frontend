@@ -62,7 +62,7 @@ const getCardType = (type) => {
 
   const getIcon = (type) => {
     switch (type) {
-      case "PLAYER_DEATH": return "☠️";
+      case "PLAYER_DEATH": return "/icons/you_died.png";
       case "MINED_DIAMOND": return "💎";
       case "ANCIENT_DEBRIS": return "🔥";
       case "NETHER": return "🌋";
@@ -334,7 +334,7 @@ const isImportantEvent = (type) => {
         {/* GRID DE ESTADÍSTICAS */}
         <div className={styles.statsGrid}>
           <div className={styles.statItem} style={{ borderLeft: "5px solid #ff4d4d" }}>
-            <div className={styles.statLabel}>CAÍDAS DEL OSO</div>
+            <div className={styles.statLabel}>CAÍDAS DEL OSO ☠️</div>
             <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{deaths}</div>
           </div>
 
@@ -360,7 +360,7 @@ const isImportantEvent = (type) => {
             <div className={styles.statLabel}>CREEPERS 💣</div>
             <div className={styles.statValue} style={{ color: "#ff4d4d" }}>{creeperKills}</div>
           </div>
-          <div className={styles.statItem} style={{ borderLeft: "5px solid #00ffff" }}>
+          <div className={styles.statItem} style={{ borderLeft: "5px solid #000000" }}>
             <div className={styles.statLabel}>ENDERMAN 👤</div>
             <div className={styles.statValue} style={{ color: "#00ffff" }}>{endermanKills}</div>
           </div>
