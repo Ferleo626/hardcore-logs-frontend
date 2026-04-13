@@ -108,7 +108,8 @@
 }
 
 .statItem {
-  background: #3c4454;
+  background-image: url("/textures/azul_oscuro.png");
+  /* background: #3c4454; */
   border: 3px solid #000;
   border-left: 10px solid;
   position: relative;
