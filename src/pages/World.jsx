@@ -8,7 +8,7 @@ import styles from "./World.module.css";
 
 function World() {
   const { id } = useParams();
-
+  const [newEventId, setNewEventId] = useState(null);
   const [world, setWorld] = useState(null);
   const [events, setEvents] = useState([]);
   const [socket, setSocket] = useState(null);
@@ -193,6 +193,15 @@ function World() {
       withCredentials: true,
       transports: ["websocket", "polling"]
     });
+useEffect(() => {
+  if (!newEventId) return;
+
+  const timer = setTimeout(() => {
+    setNewEventId(null);
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}, [newEventId]);
 
     newSocket.on("connect", () => console.log("✅ Socket Conectado a:", socketUrl));
     setSocket(newSocket);
@@ -209,7 +218,10 @@ function World() {
   if (event.worldId !== id) return; // 🔥 FILTRO CLAVE
 
   console.log("🔥 EVENTO REAL:", event);
-  setEvents(prev => [event, ...prev]);
+  setEvents(prev => {
+  setNewEventId(event._id);
+  return [event, ...prev];
+});
 };
     socket.on("newEvent", handleNewEvent);
 
@@ -373,6 +385,7 @@ const isImportantEvent = (type) => {
       .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
       .map((e) => {
         const important = isImportantEvent(e.type);
+        const isNew = e._id === newEventId;
 
         return (
           <div
@@ -397,16 +410,22 @@ const isImportantEvent = (type) => {
             }} />
 
             <div
-              className={styles.card}
-              style={{
-                borderLeft: `6px solid ${getColor(e.type)}`,
-                transform: important ? "scale(1.03)" : "scale(1)",
-                boxShadow: important
-                  ? "0 0 20px rgba(255,200,0,0.25)"
-                  : "none",
-                transition: "0.3s"
-              }}
-            >
+                 className={`
+                  ${styles.card}
+                  ${isNew ? styles.fadeIn : ""}
+                  ${isNew ? styles.glow : ""}
+                  ${isNew && important ? styles.pop : ""}
+  `}
+  style={{
+    borderLeft: `6px solid ${getColor(e.type)}`,
+    transform: important ? "scale(1.03)" : "scale(1)",
+    boxShadow: important
+      ? "0 0 20px rgba(255,200,0,0.25)"
+      : "none",
+    transition: "0.3s"
+  }}
+>
+            
               
               <div className={styles.eventInfo}>
                 
