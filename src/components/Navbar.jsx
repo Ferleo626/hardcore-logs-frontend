@@ -8,7 +8,7 @@ function Navbar() {
     navigate("/login");
   };
 
-  // --- NAVBAR BASE (igual que el tuyo) ---
+  // --- NAVBAR BASE ---
   const navStyle = {
     padding: "12px 25px",
     background: "linear-gradient(90deg, #001030 0%, #001f5c 100%)",
@@ -23,7 +23,16 @@ function Navbar() {
     zIndex: 1000
   };
 
-  // --- NUEVO ESTILO PIXEL ---
+  // --- TEXTO LOGO (PIXEL) ---
+  const logoText = {
+    fontFamily: "'VT323', monospace",
+    fontSize: "1.6rem",
+    letterSpacing: "2px",
+    color: "#ffc800",
+    textShadow: "2px 2px 0px #000"
+  };
+
+  // --- BOTONES PIXEL ---
   const pixelButton = {
     fontFamily: "'VT323', monospace",
     fontSize: "1.2rem",
@@ -33,7 +42,6 @@ function Navbar() {
     color: "#fff",
     imageRendering: "pixelated",
     boxShadow: "inset -3px -3px 0px #222, inset 3px 3px 0px #888",
-    marginLeft: "10px",
     transition: "all 0.15s ease"
   };
 
@@ -49,37 +57,33 @@ function Navbar() {
 
   return (
     <nav style={navStyle}>
-      {/* LOGO */}
+      {/* LOGO + OSO POLAR */}
       <div style={{ 
-        color: "#ffc800", 
-        fontWeight: "900", 
-        fontSize: "1.2rem", 
-        letterSpacing: "1px",
         display: "flex",
         alignItems: "center",
         gap: "10px"
       }}>
-        <span>HARDCORE LOGS</span>
+        <span style={logoText}>HARDCORE LOGS</span>
 
-        {/* OSO CON GAFAS */}
+        {/* OSO POLAR CON GAFAS */}
         <span style={{ 
           display: 'grid', 
-          gridTemplateAreas: '"icon"', 
-          justifyItems: 'center', 
-          alignItems: 'center', 
-          width: '30px', 
-          height: '30px',
-          marginLeft: '5px' 
+          placeItems: 'center',
+          width: '32px', 
+          height: '32px'
         }}>
-          <span style={{ gridArea: 'icon', fontSize: '1.5rem', zIndex: 1 }}>
+          {/* OSO */}
+          <span style={{ gridArea: '1/1', fontSize: '1.6rem', zIndex: 1 }}>
             🐻‍❄️
           </span>
+
+          {/* GAFAS */}
           <span style={{ 
-            gridArea: 'icon', 
-            fontSize: '1rem', 
-            zIndex: 2, 
-            marginTop: '3px', 
-            filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.4))' 
+            gridArea: '1/1',
+            fontSize: '1rem',
+            marginTop: '4px',
+            zIndex: 2,
+            filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.5))'
           }}>
             🕶️
           </span>
