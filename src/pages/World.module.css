@@ -132,40 +132,56 @@
   transform: scale(1.03);
 }
 
-.statLabel {
-  font-size: 1.1rem;
-  text-shadow: 2px 2px 0px #000;
-}
-
 .statValue {
   font-size: 3.5rem;
   font-weight: 900;
   text-shadow: 4px 4px 0px #000;
+  margin-top: 5px; /* separa del label */
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  text-shadow: 2px 2px 0px #000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; /* 👈 separación icono-texto */
 }
 
 /* --- EVENTOS --- */
 .eventList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 18px; /* antes 10px */
+  margin-top: 15px;
 }
 
 /* CARD UNIFICADA */
  .card { 
-  
+  background-image: url("/textures/azul_oscuro.png");
   background-size: cover;
   padding: 12px 20px;
   border: 3px solid #000;
-  box-shadow: inset -4px -4px 0px rgba(0,0,0,0.5);
+
+  /* EFECTO BOTÓN 3D */
+  box-shadow: 
+    inset -4px -4px 0px rgba(0,0,0,0.6),
+    inset 4px 4px 0px rgba(255,255,255,0.08),
+    0 4px 0px #000;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 0.2s;
-} 
+  transition: 0.1s;
+}
   
 .card:hover {
-  transform: translateX(5px);
-  border-color: #ffc800;
+  transform: translateY(2px);
+  box-shadow: 
+    inset -2px -2px 0px rgba(0,0,0,0.6),
+    inset 2px 2px 0px rgba(255,255,255,0.08),
+    0 2px 0px #000;
 }
 
 /* EVENTO INFO */
