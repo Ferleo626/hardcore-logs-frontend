@@ -43,7 +43,15 @@ function World() {
 
   return t;
 };
-
+const getCardType = (type) => {
+  switch (type) {
+    case "PLAYER_DEATH": return "death";
+    case "NETHER": return "nether";
+    case "END": return "end";
+    case "ENTER_OVERWORLD": return "overworld";
+    default: return "default";
+  }
+};
   const formatDate = (date) => {
     if (!date) return "Fecha desconocida";
     return new Date(date).toLocaleString("es-AR", {
@@ -410,11 +418,12 @@ const isImportantEvent = (type) => {
 
             <div
                  className={`
-                  ${styles.card}
-                  ${isNew ? styles.fadeIn : ""}
-                  ${isNew ? styles.glow : ""}
-                  ${isNew && important ? styles.pop : ""}
-  `}
+  ${styles.card}
+  ${styles[getCardType(normalizeType(e.type))]}
+  ${isNew ? styles.fadeIn : ""}
+  ${isNew ? styles.glow : ""}
+  ${isNew && important ? styles.pop : ""}
+`}
   style={{
     borderLeft: `6px solid ${getColor(e.type)}`,
     transform: important ? "scale(1.03)" : "scale(1)",

@@ -161,24 +161,31 @@
  .card { 
   background-image: url("/textures/azul_oscuro.png");
   background-size: cover;
-  padding: 16px 20px;
+
   border: 3px solid #000;
+  border-left: 10px solid #ff4d4d; /* 🔥 como statItem */
+
+  padding: 18px 22px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  /* 🔥 CLAVE: EFECTO 3D REAL */
+  /* 🔥 MISMO EFECTO QUE STAT */
   box-shadow:
     inset -5px -5px 0px rgba(0,0,0,0.5),
-    inset 5px 5px 0px rgba(255,255,255,0.06);
+    inset 5px 5px 0px rgba(255,255,255,0.05);
 
-  transition: all 0.08s ease;
+  transition: all 0.1s ease;
   cursor: pointer;
 }
+.card.death { border-left-color: #ff4d4d; }
+.card.overworld { border-left-color: #22c55e; }
+.card.nether { border-left-color: #f97316; }
+.card.end { border-left-color: #a855f7; }
   
 .card:hover {
-  transform: scale(1.02); /* igual que statItem */
+  transform: scale(1.03);
   filter: brightness(1.15);
 }
 
@@ -194,24 +201,34 @@
 }
 
 .eventIcon {
-  font-size: 2rem;
+  font-size: 2.4rem;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid #000;
+  padding: 8px;
+  box-shadow:
+    inset -3px -3px 0px rgba(0,0,0,0.5),
+    inset 3px 3px 0px rgba(255,255,255,0.08);
 }
 
 .eventTitle {
-  font-size: 1.1rem;
-  text-transform: uppercase;
+  font-size: 1.6rem; /* 🔥 más grande */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 3px 3px 0px #000;
+  letter-spacing: 1px;
 }
 
 .eventDescription {
-  font-size: 0.9rem;
-  color: #ccc;
+  font-size: 1.1rem;
+  color: #e5e5e5;
+  margin-top: 4px;
 }
 
 .coordsOW {
-  color: #64748b;
-  font-style: italic;
-  font-size: 0.9rem;
-  margin-top: 6px; /* 👈 separa del texto de arriba */
+  color: #22c55e; /* 🌿 verde overworld */
+  font-style: normal;
+  font-size: 0.95rem;
+  margin-top: 6px;
   letter-spacing: 1px;
 }
 /* TIEMPO */
