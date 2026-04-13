@@ -1,9 +1,11 @@
-/* --- Contenedor Principal --- */
+/* Importala en tu CSS o index.html */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 .container {
   background: radial-gradient(circle at center, #001f5c 0%, #001030 100%);
   min-height: 100vh;
   color: #f0f0f0;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'VT323', monospace;
   padding: 20px;
 }
 
