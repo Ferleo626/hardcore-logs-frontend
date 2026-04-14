@@ -478,11 +478,18 @@ const isImportantEvent = (type) => {
               
               <div className={styles.eventInfo}>
                 
-                {/* ICONO */}
-                <div className={styles.eventIcon}>
-                  <img src={getIcon(normalizeType(e.type))} alt="icon" className={styles.eventIconImg}/>
-                </div>
 
+                {/* ICONO */}
+<div className={styles.eventIcon}>
+  <img 
+    src={e.icon || getIcon(normalizeType(e.type))}
+    alt="Event Icon" 
+    className={styles.eventIconImg} 
+    onError={(err) => {
+      err.target.src = '/icons/Book_and_Quill.png';
+    }}
+  />
+</div>
                 {/* INFO */}
                 <div>
                   <h4 className={styles.eventTitle}>
