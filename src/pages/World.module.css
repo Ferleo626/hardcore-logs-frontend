@@ -44,7 +44,7 @@
   border-left: 10px solid #ffd700; /* Borde amarillo de categoría */
   padding: 20px;
   display: grid;
-  grid-template-columns: 2fr 3fr 1fr 1fr 1fr auto;
+  grid-template-columns: 1.5fr 1.5fr 2fr 0.8fr 0.8fr 0.8fr auto;
   gap: 10px;
   margin-bottom: 30px;
   align-items: center;

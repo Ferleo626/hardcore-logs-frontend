@@ -19,6 +19,7 @@ function World() {
   // Estados del formulario manual
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
+  const [player, setPlayer] = useState("");
   const [x, setX] = useState("");
   const [y, setY] = useState("");
   const [z, setZ] = useState("");
@@ -178,18 +179,27 @@ const getCardType = (type) => {
   };
 
   const createEvent = async () => {
-    if (!type) return;
-    try {
-      await API.post("/events", {
-        type, description,
-        x: Number(x), y: Number(y), z: Number(z),
-        worldId: id
-      });
-      setType(""); setDescription(""); setX(""); setY(""); setZ("");
-    } catch (err) {
-      console.error("Error al crear evento:", err);
-    }
-  };
+  if (!type || !player) {
+    alert("¡Faltan datos! Necesitamos el Tipo y el Nombre del Jugador.");
+    return;
+  }
+  try {
+    await API.post("/events", {
+      type, 
+      description,
+      player, // 👈 Ahora usa lo que el usuario escribió
+      x: Number(x) || 0,
+      y: Number(y) || 0,
+      z: Number(z) || 0,
+      worldId: id,
+      dimension: "OVERWORLD"
+    });
+    // Limpiamos todo
+    setType(""); setDescription(""); setPlayer(""); setX(""); setY(""); setZ("");
+  } catch (err) {
+    console.error("Error al crear evento:", err);
+  }
+};
 
  // --- SOCKET.IO ---
 useEffect(() => {
@@ -306,7 +316,16 @@ const isImportantEvent = (type) => {
   <h3 style={{ gridColumn: "1 / -1", marginTop: 0, color: "#ffc800", textShadow: "2px 2px 0px #000" }}>
     ➕ Registrar Evento Manual
   </h3>
-  
+
+  {/* 👇 NUEVO */}
+  <input 
+    className={styles.input} 
+    type="text" 
+    placeholder="Tu Nombre/Skin" 
+    value={player} 
+    onChange={(e) => setPlayer(e.target.value)} 
+  />
+
   <input 
     className={styles.input} 
     type="text" 
@@ -314,6 +333,7 @@ const isImportantEvent = (type) => {
     value={type} 
     onChange={(e) => setType(e.target.value)} 
   />
+
   <input 
     className={styles.input} 
     type="text" 
