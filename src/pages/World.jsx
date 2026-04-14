@@ -178,26 +178,45 @@ const getCardType = (type) => {
     }
   };
 
-  const createEvent = async () => {
-  if (!type || !player) {
-    alert("¡Faltan datos! Necesitamos el Tipo y el Nombre del Jugador.");
+ const createEvent = async () => {
+  // Validación básica en el cliente
+  if (!type || !id) {
+    alert("Faltan datos críticos (Tipo o ID del Mundo)");
     return;
   }
+
   try {
-    await API.post("/events", {
-      type, 
-      description,
-      player, // 👈 Ahora usa lo que el usuario escribió
-      x: Number(x) || 0,
-      y: Number(y) || 0,
-      z: Number(z) || 0,
-      worldId: id,
-      dimension: "OVERWORLD"
-    });
-    // Limpiamos todo
-    setType(""); setDescription(""); setPlayer(""); setX(""); setY(""); setZ("");
+    const eventData = {
+      type: type.toUpperCase().trim(),
+      description: description || "Evento manual",
+      player: player || "Oso", // Si no hay input de player, usa "Oso" por defecto
+      x: parseInt(x) || 0,
+      y: parseInt(y) || 0,
+      z: parseInt(z) || 0,
+      worldId: id, // El ID de la URL
+      dimension: "OVERWORLD", // Casi siempre falla si falta este campo
+      date: new Date().toISOString()
+    };
+
+    console.log("Enviando al servidor:", eventData);
+
+    const res = await API.post("/events", eventData);
+    
+    console.log("✅ Servidor respondió:", res.data);
+
+    // Limpiar formulario si tuvo éxito
+    setType(""); 
+    setDescription(""); 
+    setX(""); 
+    setY(""); 
+    setZ("");
+    if(setPlayer) setPlayer(""); // Solo si agregaste el estado para el input de player
+
   } catch (err) {
-    console.error("Error al crear evento:", err);
+    console.error("❌ Error 500 - Detalle del servidor:");
+    // Esto te va a decir EXACTAMENTE qué campo falta en la consola
+    console.log(err.response?.data); 
+    alert("Error del servidor (500). Revisá la consola para ver qué campo falta.");
   }
 };
 
