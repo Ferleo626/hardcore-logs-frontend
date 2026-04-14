@@ -64,15 +64,14 @@ const getCardType = (type) => {
     switch (type) {
       case "PLAYER_DEATH": return "/icons/you_died.png";
       case "MINED_DIAMOND": return "/icons/diamond.png";
-      case "ANCIENT_DEBRIS": return "🔥";
-      case "NETHER": return "🌋";
-      case "END": return "🌌";
-      case "DRAGON": return "🐉";
+      case "ANCIENT_DEBRIS": return "/icons/ancient_debris.png";
+      case "NETHER": return "/icons/nether_portal.png";
+      case "END": return "/icons/end_portal.png";
+      case "DRAGON": return "/icons/dragon.png";
       case "KILL_ZOMBIE": return "/icons/zombie.png";
       case "KILL_CREEPER": return "/icons/creeper.png";
       case "KILL_SKELETON": return "/icons/skeleton.png";
-      case "LOW_HP": return "❤️";
-      case "TOTEM": return "🧿";
+      case "TOTEM": return "/icons/totem.png";
       default: return "📌";
     }
   };
@@ -439,25 +438,7 @@ const isImportantEvent = (type) => {
                 
                 {/* ICONO */}
                 <div className={styles.eventIcon}>
-                  {e.type === "PLAYER_DEATH" ? (
-                    <>
-                      <span style={{ fontSize: "3rem", position: "relative", zIndex: 1 }}>
-                        🐻‍❄️
-                      </span>
-                      <span style={{
-                        fontSize: "2rem",
-                        position: "absolute",
-                        marginTop: "10px",
-                        filter: "drop-shadow(0 0 5px rgba(255,255,255,0.4))"
-                      }}>
-                        🕶️
-                      </span>
-                    </>
-                  ) : (
-                    <span style={{ fontSize: important ? "3rem" : "2.5rem" }}>
-                      {getIcon(normalizeType(e.type))}
-                    </span>
-                  )}
+                  <img src={getIcon(normalizeType(e.type))} alt="icon" className={styles.eventIconImg}/>
                 </div>
 
                 {/* INFO */}
