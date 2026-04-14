@@ -7,10 +7,10 @@ import buttonStyles from "../styles/Button.module.css";
 const containerStyle = {
   background: "radial-gradient(circle at center, #001f5c 0%, #001030 100%)",
   minHeight: "100vh",
-  color: "#f0f0f0",
+  color: "#ffc800",
   padding: "40px 20px",
   textAlign: "center",
-  fontFamily: "Roboto, sans-serif"
+  fontFamily: "'VT323', monospace" // 🔥 CLAVE
 };
 
 const cardStyle = {
@@ -100,16 +100,16 @@ function Home() {
       
       {/* 🔥 HEADER DINÁMICO */}
       <h1 style={{ 
-        fontSize: "3rem", 
-        color: "#ffc800", 
-        textShadow: "0 0 15px rgba(255, 200, 0, 0.8)", 
-        letterSpacing: "3px", 
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        marginBottom: "10px"
-      }}>
-        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
-      </h1>
+  fontSize: "3.8rem",
+  color: "#ffc800",
+  textShadow: "4px 4px 0px #000", // 🔥 estilo pixel real
+  letterSpacing: "1px", // 🔥 no exagerado
+  textTransform: "uppercase",
+  marginBottom: "10px",
+  fontFamily: "'VT323', monospace"
+}}>
+  {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
+</h1>
 
       <p style={{ opacity: 0.7, marginBottom: "30px" }}>
         Hardcore Minecraft Tracker Dashboard
