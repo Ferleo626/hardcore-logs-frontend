@@ -99,17 +99,18 @@ function Home() {
     <div style={containerStyle}>
       
       {/* 🔥 HEADER DINÁMICO */}
-      <h1 style={{ 
-        fontSize: "3rem", 
-        color: "#ffc800", 
-        textShadow: "0 0 15px rgba(255, 200, 0, 0.8)", 
-        letterSpacing: "3px", 
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        marginBottom: "10px"
-      }}>
-        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
-      </h1>
+
+             <h1 style={{ 
+              fontFamily: "'Press Start 2P', cursive", // Cambiamos Roboto por esta
+              fontSize: "1.8rem", // Al ser más ancha, bajamos un poco el tamaño para que no desborde
+              color: "#ffc800", 
+              textShadow: "4px 4px 0px #000", // Sombra sólida tipo bloque
+              letterSpacing: "2px", 
+              textTransform: "uppercase",
+              marginBottom: "10px"
+}}>
+  {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
+</h1>
 
       <p style={{ opacity: 0.7, marginBottom: "30px" }}>
         Hardcore Minecraft Tracker Dashboard

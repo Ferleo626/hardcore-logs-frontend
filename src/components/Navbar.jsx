@@ -26,32 +26,29 @@ function Navbar() {
   };
 
   // --- NAVBAR ACTUALIZADA CON TEXTURA ---
-  // --- NAVBAR ACTUALIZADA ---
   const navStyle = {
     padding: "12px 25px",
+    // Se reemplaza el degradado por la textura de imagen
     backgroundImage: 'url("/textures/azul_oscuro.png")',
     backgroundRepeat: "repeat",
-    backgroundSize: "auto",
+    backgroundSize: "auto", // Mantiene el tamaño original de los píxeles de la textura
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     gap: "15px",
-    // CAMBIO: Línea blanca por AMARILLA para total consistencia
-    borderBottom: "3px solid #ffc800", 
-    boxShadow: "0 4px 15px rgba(0,0,0,0.6)", // Sombra más marcada
+    borderBottom: "3px solid #ffc800",
+    boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
     position: "sticky",
     top: 0,
     zIndex: 1000
   };
 
-  // --- NUEVA CALIGRAFÍA PARA EL TÍTULO ---
   const logoText = {
-    fontFamily: "'Press Start 2P', cursive", // Fuente más robusta estilo bloque
-    fontSize: "1.2rem", // Al ser más ancha, bajamos un poco el tamaño
-    letterSpacing: "1px",
+    fontFamily: "'VT323', monospace",
+    fontSize: "1.6rem",
+    letterSpacing: "2px",
     color: "#ffc800",
-    textShadow: "3px 3px 0px #000", // Sombra más gruesa para que resalte
-    textTransform: "uppercase"
+    textShadow: "2px 2px 0px #000"
   };
 
   const logoImageStyle = {
