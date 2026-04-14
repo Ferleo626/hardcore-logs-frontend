@@ -63,7 +63,7 @@ const getCardType = (type) => {
   const getIcon = (type) => {
     switch (type) {
       case "PLAYER_DEATH": return "/icons/you_died.png";
-      case "MINED_DIAMOND": return "/icons/diamond.png";
+      case "MINED_DIAMOND": return "/icons/Diamond.png";
       case "ANCIENT_DEBRIS": return "/icons/ancient_debris.png";
       case "NETHER": return "/icons/nether_portal.png";
       case "END": return "/icons/end_portal.png";
