@@ -23,7 +23,6 @@ function Navbar() {
     zIndex: 1000
   };
 
-  // --- TEXTO LOGO (PIXEL) ---
   const logoText = {
     fontFamily: "'VT323', monospace",
     fontSize: "1.6rem",
@@ -32,7 +31,14 @@ function Navbar() {
     textShadow: "2px 2px 0px #000"
   };
 
-  // --- BOTONES PIXEL ---
+  // Estilo para la imagen del logo
+  const logoImageStyle = {
+    width: "40px",
+    height: "40px",
+    imageRendering: "pixelated", // Mantiene el estilo Minecraft/Pixel
+    objectFit: "contain"
+  };
+
   const pixelButton = {
     fontFamily: "'VT323', monospace",
     fontSize: "1.2rem",
@@ -45,49 +51,21 @@ function Navbar() {
     transition: "all 0.15s ease"
   };
 
-  const homeStyle = {
-    ...pixelButton,
-    background: "#5a5a5a"
-  };
-
-  const logoutStyle = {
-    ...pixelButton,
-    background: "#8b0000"
-  };
+  const homeStyle = { ...pixelButton, background: "#5a5a5a" };
+  const logoutStyle = { ...pixelButton, background: "#8b0000" };
 
   return (
     <nav style={navStyle}>
-      {/* LOGO + OSO POLAR */}
-      <div style={{ 
-        display: "flex",
-        alignItems: "center",
-        gap: "10px"
-      }}>
+      {/* SECCIÓN LOGO */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
         <span style={logoText}>HARDCORE LOGS</span>
-
-        {/* OSO POLAR CON GAFAS */}
-        <span style={{ 
-          display: 'grid', 
-          placeItems: 'center',
-          width: '32px', 
-          height: '32px'
-        }}>
-          {/* OSO */}
-          <span style={{ gridArea: '1/1', fontSize: '1.6rem', zIndex: 1 }}>
-            🐻‍❄️
-          </span>
-
-          {/* GAFAS */}
-          <span style={{ 
-            gridArea: '1/1',
-            fontSize: '1rem',
-            marginTop: '4px',
-            zIndex: 2,
-            filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.5))'
-          }}>
-            🕶️
-          </span>
-        </span>
+        
+        {/* REEMPLAZO DEL OSO POR LA IMAGEN */}
+        <img 
+          src="/icons/logo.png" 
+          alt="Logo" 
+          style={logoImageStyle} 
+        />
       </div>
 
       {/* BOTONES */}
@@ -96,12 +74,12 @@ function Navbar() {
           style={homeStyle}
           onClick={() => navigate("/")}
           onMouseOver={(e) => {
-            e.target.style.transform = "scale(1.05)";
-            e.target.style.filter = "brightness(1.2)";
+            e.currentTarget.style.transform = "scale(1.05)";
+            e.currentTarget.style.filter = "brightness(1.2)";
           }}
           onMouseOut={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.filter = "brightness(1)";
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.filter = "brightness(1)";
           }}
         >
           🏠 HOME
@@ -111,12 +89,12 @@ function Navbar() {
           style={logoutStyle}
           onClick={logout}
           onMouseOver={(e) => {
-            e.target.style.transform = "scale(1.05)";
-            e.target.style.filter = "brightness(1.2)";
+            e.currentTarget.style.transform = "scale(1.05)";
+            e.currentTarget.style.filter = "brightness(1.2)";
           }}
           onMouseOut={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.filter = "brightness(1)";
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.filter = "brightness(1)";
           }}
         >
           🚪 SALIR

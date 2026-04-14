@@ -72,6 +72,8 @@ const getCardType = (type) => {
       case "KILL_CREEPER": return "/icons/creeper.png";
       case "KILL_SKELETON": return "/icons/skeleton.png";
       case "TOTEM": return "/icons/totem.png";
+      case "KILL_ENDERMAN": return "/icons/enderman.png";
+      case "ENTER_OVERWORLD": return "/icons/tierra.png";
       default: return "📌";
     }
   };
