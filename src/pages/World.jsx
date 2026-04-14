@@ -379,16 +379,7 @@ const isImportantEvent = (type) => {
        <div className={styles.eventList}>
   <div style={{ position: "relative", paddingLeft: "30px" }}>
     
-    {/* línea vertical del timeline */}
-    <div style={{
-      position: "absolute",
-      left: "10px",
-      top: 0,
-      bottom: 0,
-      width: "2px",
-      background: "rgba(255,255,255,0.2)"
-    }} />
-
+    
     {[...events]
       .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
       .map((e) => {
@@ -405,17 +396,6 @@ const isImportantEvent = (type) => {
             }}
           >
             
-            {/* punto del timeline */}
-            <div style={{
-              position: "absolute",
-              left: "-22px",
-              top: "30px",
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              background: important ? "#ffc800" : "#888",
-              boxShadow: important ? "0 0 10px #ffc800" : "none"
-            }} />
 
             <div
                  className={`
@@ -427,10 +407,6 @@ const isImportantEvent = (type) => {
 `}
   style={{
     borderLeft: `6px solid ${getColor(e.type)}`,
-    transform: important ? "scale(1.03)" : "scale(1)",
-    boxShadow: important
-      ? "0 0 20px rgba(255,200,0,0.25)"
-      : "none",
     transition: "0.3s"
   }}
 >
