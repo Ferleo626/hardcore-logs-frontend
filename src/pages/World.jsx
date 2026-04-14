@@ -65,9 +65,9 @@ const getCardType = (type) => {
       case "PLAYER_DEATH": return "/icons/you_died.png";
       case "MINED_DIAMOND": return "/icons/Diamond.png";
       case "ANCIENT_DEBRIS": return "/icons/ancient_debris.png";
-      case "NETHER": return "/icons/nether_portal.png";
-      case "END": return "/icons/end_portal.png";
-      case "DRAGON": return "/icons/dragon.png";
+      case "NETHER": return "/icons/lava.png";
+      case "END": return "/icons/endstone.png";
+      case "DRAGON": return "/icons/enderdragon.png";
       case "KILL_ZOMBIE": return "/icons/zombie.png";
       case "KILL_CREEPER": return "/icons/creeper.png";
       case "KILL_SKELETON": return "/icons/skeleton.png";
