@@ -20,15 +20,18 @@ function Navbar() {
 
   // 🔊 SONIDO CLICK
   const playClick = () => {
-    const audio = new Audio("/sounds/click.mp3"); // poné tu sonido acá
+    const audio = new Audio("/sounds/click.mp3"); 
     audio.volume = 0.4;
     audio.play();
   };
 
-  // --- NAVBAR ---
+  // --- NAVBAR ACTUALIZADA CON TEXTURA ---
   const navStyle = {
     padding: "12px 25px",
-    background: "linear-gradient(90deg, #001030 0%, #001f5c 100%)",
+    // Se reemplaza el degradado por la textura de imagen
+    backgroundImage: 'url("/textures/azul_oscuro.png")',
+    backgroundRepeat: "repeat",
+    backgroundSize: "auto", // Mantiene el tamaño original de los píxeles de la textura
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
