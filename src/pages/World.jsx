@@ -453,21 +453,46 @@ const isImportantEvent = (type) => {
                     {getDescription(e)}
                   </p>
 
-                  <div className={styles.eventMeta}>
-                    <span style={getDimensionStyle(e.dimension)}>
-                      {getDimensionName(e.dimension)}
-                    </span>
+                  {/* INFO DE DIMENSIÓN Y COORDENADAS SEPARADAS */}
+<div
+  className={styles.eventMeta}
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+    alignItems: "center"
+  }}
+>
+  {/* Dimensión */}
+  <span style={{ ...getDimensionStyle(e.dimension), marginRight: "5px" }}>
+    {getDimensionName(e.dimension)}
+  </span>
 
-                    <span className={styles.coords}>
-                      X: {e.x} | Y: {e.y} | Z: {e.z}
-                    </span>
+  {/* Coordenadas */}
+  <span
+    className={styles.coords}
+    style={{
+      background: "rgba(0,0,0,0.3)",
+      padding: "2px 8px",
+      borderRadius: "4px"
+    }}
+  >
+    X: {e.x} | Y: {e.y} | Z: {e.z}
+  </span>
 
-                    {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
-                      <span style={{ color: "#aaa" }}>
-                        {" "} (OW: X:{e.x * 8} Z:{e.z * 8})
-                      </span>
-                    )}
-                  </div>
+  {/* Conversión Nether → Overworld */}
+  {(e.dimension === "THE_NETHER" || e.dimension === "NETHER") && (
+    <span
+      style={{
+        color: "#aaa",
+        fontSize: "0.85rem",
+        marginLeft: "5px"
+      }}
+    >
+      (OW: X:{e.x * 8} Z:{e.z * 8})
+    </span>
+  )}
+</div>
                 </div>
               </div>
 
