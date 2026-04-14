@@ -182,35 +182,35 @@ const getCardType = (type) => {
   if (!type || !id) return;
 
   try {
+    // Necesitamos el nombre de la carpeta/mundo que el backend espera
+    // Si en tu URL tenés el ID, pero el backend busca por folderName, 
+    // asegurate de tener disponible el nombre de la carpeta.
+    
     const eventData = {
-      // Usamos los nombres exactos que suelen pedir los modelos de logs de MC
-      player: player || "Oso",
       type: type.toUpperCase().trim(),
-      description: description || "Registro manual",
+      player: player || "Oso",
       x: parseInt(x) || 0,
       y: parseInt(y) || 0,
       z: parseInt(z) || 0,
-      worldId: id, 
+      description: description || "Registro manual",
       dimension: "OVERWORLD",
-      // Agregamos el timestamp, a veces el backend explota si no lo lleva
-      timestamp: new Date().toISOString(), 
-      server: "Manual" // Por si el modelo exige saber el origen
+      // 🔥 CAMBIO CLAVE: El backend busca por folderName, no por worldId
+      folderName: world.folderName, // <--- Asegurate de que 'world' sea el objeto del mundo actual
     };
 
-    console.log("🚀 Enviando datos:", eventData);
+    console.log("🚀 Enviando al backend:", eventData);
 
     const res = await API.post("/events", eventData);
-    console.log("✅ ÉXITO:", res.data);
-
+    
+    console.log("✅ Guardado:", res.data);
+    
     // Limpiar campos
     setType(""); setDescription(""); setX(""); setY(""); setZ("");
   } catch (err) {
-    console.error("❌ El servidor sigue rechazando el evento.");
-    // Si esto imprime "Error interno", el problema está en el esquema del Backend
-    console.log("Detalle:", err.response?.data);
+    console.error("❌ Error al crear:", err.response?.data);
+    alert("Error: " + (err.response?.data?.error || "No se pudo crear"));
   }
 };
-
  // --- SOCKET.IO ---
 useEffect(() => {
   if (!id) return;
