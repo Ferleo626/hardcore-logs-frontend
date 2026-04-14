@@ -222,19 +222,20 @@
   /* ... resto de tu código ... */
 }
 .eventTitle {
-  font-size: 1.6rem; /* 🔥 más grande */
+  font-size: 1.6rem;
   font-weight: bold;
-  color: #fff;
+  color: #ffc800; /* 🔥 amarillo global */
   text-shadow: 3px 3px 0px #000;
   letter-spacing: 1px;
 }
 
 .eventDescription {
   font-size: 1.1rem;
-  color: #e5e5e5;
+  color: #ffc800;
   margin-top: 4px;
+  text-shadow: 2px 2px 0px #000;
+  opacity: 0.9; /* 👈 leve diferencia visual */
 }
-
 .coordsOW {
   color: #22c55e; /* 🌿 verde overworld */
   font-style: normal;
