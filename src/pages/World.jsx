@@ -179,44 +179,34 @@ const getCardType = (type) => {
   };
 
  const createEvent = async () => {
-  // Validación básica en el cliente
-  if (!type || !id) {
-    alert("Faltan datos críticos (Tipo o ID del Mundo)");
-    return;
-  }
+  if (!type || !id) return;
 
   try {
     const eventData = {
+      player: player || "Oso",
       type: type.toUpperCase().trim(),
-      description: description || "Evento manual",
-      player: player || "Oso", // Si no hay input de player, usa "Oso" por defecto
+      description: description || "Registro manual",
       x: parseInt(x) || 0,
       y: parseInt(y) || 0,
       z: parseInt(z) || 0,
-      worldId: id, // El ID de la URL
-      dimension: "OVERWORLD", // Casi siempre falla si falta este campo
-      date: new Date().toISOString()
+      worldId: id.trim(), // Limpiamos espacios por las dudas
+      dimension: "OVERWORLD", // Probá también con "minecraft:overworld" si esto falla
     };
 
-    console.log("Enviando al servidor:", eventData);
+    console.log("🚀 Enviando datos limpios:", eventData);
 
     const res = await API.post("/events", eventData);
     
-    console.log("✅ Servidor respondió:", res.data);
+    console.log("✅ ÉXITO:", res.data);
 
-    // Limpiar formulario si tuvo éxito
-    setType(""); 
-    setDescription(""); 
-    setX(""); 
-    setY(""); 
-    setZ("");
-    if(setPlayer) setPlayer(""); // Solo si agregaste el estado para el input de player
-
+    // Resetear campos
+    setType(""); setDescription(""); setX(""); setY(""); setZ("");
   } catch (err) {
-    console.error("❌ Error 500 - Detalle del servidor:");
-    // Esto te va a decir EXACTAMENTE qué campo falta en la consola
-    console.log(err.response?.data); 
-    alert("Error del servidor (500). Revisá la consola para ver qué campo falta.");
+    console.error("❌ Error 500 detectado");
+    console.log("Respuesta del servidor:", err.response?.data);
+    
+    // Si el error persiste, el problema está en los campos que el BACKEND exige
+    // y nosotros no estamos mandando (ej: 'server', 'timestamp', etc)
   }
 };
 
