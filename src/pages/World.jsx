@@ -183,30 +183,31 @@ const getCardType = (type) => {
 
   try {
     const eventData = {
+      // Usamos los nombres exactos que suelen pedir los modelos de logs de MC
       player: player || "Oso",
       type: type.toUpperCase().trim(),
       description: description || "Registro manual",
       x: parseInt(x) || 0,
       y: parseInt(y) || 0,
       z: parseInt(z) || 0,
-      worldId: id.trim(), // Limpiamos espacios por las dudas
-      dimension: "OVERWORLD", // Probá también con "minecraft:overworld" si esto falla
+      worldId: id, 
+      dimension: "OVERWORLD",
+      // Agregamos el timestamp, a veces el backend explota si no lo lleva
+      timestamp: new Date().toISOString(), 
+      server: "Manual" // Por si el modelo exige saber el origen
     };
 
-    console.log("🚀 Enviando datos limpios:", eventData);
+    console.log("🚀 Enviando datos:", eventData);
 
     const res = await API.post("/events", eventData);
-    
     console.log("✅ ÉXITO:", res.data);
 
-    // Resetear campos
+    // Limpiar campos
     setType(""); setDescription(""); setX(""); setY(""); setZ("");
   } catch (err) {
-    console.error("❌ Error 500 detectado");
-    console.log("Respuesta del servidor:", err.response?.data);
-    
-    // Si el error persiste, el problema está en los campos que el BACKEND exige
-    // y nosotros no estamos mandando (ej: 'server', 'timestamp', etc)
+    console.error("❌ El servidor sigue rechazando el evento.");
+    // Si esto imprime "Error interno", el problema está en el esquema del Backend
+    console.log("Detalle:", err.response?.data);
   }
 };
 
