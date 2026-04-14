@@ -98,34 +98,19 @@ function Home() {
   return (
     <div style={containerStyle}>
       
-     // --- DENTRO DEL RETURN DEL COMPONENTE HOME ---
+      {/* 🔥 HEADER DINÁMICO */}
+      <h1 style={{ 
+        fontSize: "3rem", 
+        color: "#ffc800", 
+        textShadow: "0 0 15px rgba(255, 200, 0, 0.8)", 
+        letterSpacing: "3px", 
+        fontWeight: "bold",
+        textTransform: "uppercase",
+        marginBottom: "10px"
+      }}>
+        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
+      </h1>
 
-{/* 🔥 HEADER DINÁMICO */}
-    <h1 style={{ 
-     fontFamily: "'VT323', monospace", // La misma que HARDCORE LOGS
-     fontSize: "3.5rem", 
-     color: "#ffc800", 
-     textShadow: "3px 3px 0px #000", 
-     letterSpacing: "2px", 
-     textTransform: "uppercase",
-     marginBottom: "10px"
-}}>
-  {loading ? "CARGANDO..." : "MIS MUNDOS HARDCORE"}
-</h1>
-
-// ... (resto del código)
-
-{/* Lista de mundos - Dentro del worlds.map */}
-<span style={{ 
-  fontFamily: "'VT323', monospace", // Unificamos la caligrafía de los títulos de los mundos
-  fontWeight: "bold", 
-  fontSize: "1.8rem", // Más grande para que se luzca
-  color: "#fff",
-  textShadow: "2px 2px 0px #000",
-  textTransform: "uppercase"
-}}>
-  {w.name}
-</span>
       <p style={{ opacity: 0.7, marginBottom: "30px" }}>
         Hardcore Minecraft Tracker Dashboard
       </p>
