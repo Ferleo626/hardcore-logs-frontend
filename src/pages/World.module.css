@@ -38,56 +38,65 @@
 
 /* --- FORMULARIO --- */
 .manualEventForm {
-  background: rgba(0, 43, 122, 0.5);
+  background-image: url("/textures/azul_oscuro.png"); /* Textura azul de fondo */
+  background-size: cover;
   border: 3px solid #000;
+  border-left: 10px solid #ffd700; /* Borde amarillo de categoría */
   padding: 20px;
   display: grid;
   grid-template-columns: 2fr 3fr 1fr 1fr 1fr auto;
   gap: 10px;
   margin-bottom: 30px;
-  backdrop-filter: blur(10px);
-  box-shadow: inset -4px -4px 0px rgba(0,0,0,0.5);
+  align-items: center;
+  
+  /* El mismo efecto de relieve que tus cartas y stats */
+  box-shadow: 
+    inset -5px -5px 0px rgba(0,0,0,0.5),
+    inset 5px 5px 0px rgba(255,255,255,0.05);
+  position: relative;
 }
 
-/* INPUTS */
+/* --- BOTÓN ESTILO MINECRAFT AZUL --- */
+.button {
+  background-image: url("/textures/azul_oscuro.png");
+  background-size: cover;
+  color: #fff;
+  border: 3px solid #000;
+  /* Sombra interna para que parezca un botón 3D */
+  box-shadow: 
+    inset -4px -4px 0px rgba(0,0,0,0.6), 
+    inset 4px 4px 0px rgba(255,255,255,0.2);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  transition: all 0.1s;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.button:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+.button:active {
+  /* Efecto de presionar: invertimos la sombra y bajamos un poco */
+  box-shadow: 
+    inset 4px 4px 0px rgba(0,0,0,0.6), 
+    inset -4px -4px 0px rgba(255,255,255,0.1);
+  transform: scale(0.95) translateY(2px);
+}
+
+/* Ajuste para los inputs para que no desentonen */
 .input, .inputShort {
-  background: #000d26;
+  background: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para que se vea el azul de fondo */
   border: 2px solid #000;
   color: #fff;
   padding: 10px;
   font-family: 'VT323', monospace;
-  outline: none;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
 }
-
-.inputShort {
-  width: 70px;
-  text-align: center;
-}
-
-.input:focus, .inputShort:focus {
-  border-color: #ffc800;
-  background: #001640;
-}
-
-/* --- BOTÓN --- */
-.button {
-  background: #0055ff;
-  color: white;
-  border: 3px solid #000;
-  box-shadow: inset -3px -3px 0px #003399, inset 3px 3px 0px #6699ff;
-  padding: 10px 25px;
-  cursor: pointer;
-  font-weight: bold;
-  font-family: 'VT323', monospace;
-  text-transform: uppercase;
-  transition: 0.15s;
-}
-
-.button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
-}
-
 /* --- RUN SUMMARY --- */
 .runSummary {
   background: rgba(0, 0, 0, 0.4);

@@ -301,9 +301,11 @@ const isImportantEvent = (type) => {
 
   <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>
 </header>
-        {/* ✅ FORMULARIO DE REGISTRO MANUAL CORREGIDO */}
+        {/* FORMULARIO DE REGISTRO MANUAL */}
 <div className={styles.manualEventForm}>
-  <h3 style={{ gridColumn: "1 / -1", marginTop: 0 }}>➕ Registrar Evento Manual</h3>
+  <h3 style={{ gridColumn: "1 / -1", marginTop: 0, color: "#ffc800", textShadow: "2px 2px 0px #000" }}>
+    ➕ Registrar Evento Manual
+  </h3>
   
   <input 
     className={styles.input} 
@@ -340,7 +342,10 @@ const isImportantEvent = (type) => {
     value={z} 
     onChange={(e) => setZ(e.target.value)} 
   />
-  <button className={styles.button} onClick={createEvent}>Agregar</button>
+
+  <button className={styles.button} onClick={createEvent}>
+    Agregar
+  </button>
 </div>
 <div style={{
   background: "rgba(0,0,0,0.6)",
