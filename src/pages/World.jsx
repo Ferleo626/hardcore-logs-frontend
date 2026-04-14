@@ -301,18 +301,47 @@ const isImportantEvent = (type) => {
 
   <p className={styles.headerSubtitle}>Real-Time Minecraft Hardcore Event Tracker & Dashboard</p>
 </header>
-        {/* FORMULARIO DE REGISTRO MANUAL */}
-        <div className={styles.statItem} style={{ marginBottom: "30px", borderLeft: "5px solid #ffd700" }}>
-          <h3 style={{ marginTop: 0 }}>➕ Registrar Evento Manual</h3>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <input className={styles.input} type="text" placeholder="Tipo (DEATH, DIAMOND...)" value={type} onChange={(e) => setType(e.target.value)} />
-            <input className={styles.input} type="text" placeholder="Descripción" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="X" value={x} onChange={(e) => setX(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="Y" value={y} onChange={(e) => setY(e.target.value)} />
-            <input className={styles.inputShort} type="number" placeholder="Z" value={z} onChange={(e) => setZ(e.target.value)} />
-            <button className={styles.button} onClick={createEvent}>Agregar</button>
-          </div>
-        </div>
+        {/* ✅ FORMULARIO DE REGISTRO MANUAL CORREGIDO */}
+<div className={styles.manualEventForm}>
+  <h3 style={{ gridColumn: "1 / -1", marginTop: 0 }}>➕ Registrar Evento Manual</h3>
+  
+  <input 
+    className={styles.input} 
+    type="text" 
+    placeholder="Tipo (DEATH, DIAMOND...)" 
+    value={type} 
+    onChange={(e) => setType(e.target.value)} 
+  />
+  <input 
+    className={styles.input} 
+    type="text" 
+    placeholder="Descripción" 
+    value={description} 
+    onChange={(e) => setDescription(e.target.value)} 
+  />
+  <input 
+    className={styles.inputShort} 
+    type="number" 
+    placeholder="X" 
+    value={x} 
+    onChange={(e) => setX(e.target.value)} 
+  />
+  <input 
+    className={styles.inputShort} 
+    type="number" 
+    placeholder="Y" 
+    value={y} 
+    onChange={(e) => setY(e.target.value)} 
+  />
+  <input 
+    className={styles.inputShort} 
+    type="number" 
+    placeholder="Z" 
+    value={z} 
+    onChange={(e) => setZ(e.target.value)} 
+  />
+  <button className={styles.button} onClick={createEvent}>Agregar</button>
+</div>
 <div style={{
   background: "rgba(0,0,0,0.6)",
   padding: "20px",
