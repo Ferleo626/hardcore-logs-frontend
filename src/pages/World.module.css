@@ -23,10 +23,11 @@
 .headerTitle {
   font-size: 3.5rem;
   color: #ffc800;
-  text-shadow: 0 0 15px rgba(255, 200, 0, 0.8), 2px 2px 0px #000;
-  letter-spacing: 5px;
+  text-shadow: 4px 4px 0px #000; /* mismo estilo pixel */
+  letter-spacing: 1px; /* 👈 igual que otros textos */
   margin: 0;
   text-transform: uppercase;
+  font-family: 'VT323', monospace; /* por si acaso */
 }
 
 .headerSubtitle {
