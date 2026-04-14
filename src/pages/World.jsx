@@ -63,14 +63,14 @@ const getCardType = (type) => {
   const getIcon = (type) => {
     switch (type) {
       case "PLAYER_DEATH": return "/icons/you_died.png";
-      case "MINED_DIAMOND": return "💎";
+      case "MINED_DIAMOND": return "/icons/diamond.png";
       case "ANCIENT_DEBRIS": return "🔥";
       case "NETHER": return "🌋";
       case "END": return "🌌";
       case "DRAGON": return "🐉";
-      case "KILL_ZOMBIE": return "🧟";
-      case "KILL_CREEPER": return "💣";
-      case "KILL_SKELETON": return "🏹";
+      case "KILL_ZOMBIE": return "/icons/zombie.png";
+      case "KILL_CREEPER": return "/icons/creeper.png";
+      case "KILL_SKELETON": return "/icons/skeleton.png";
       case "LOW_HP": return "❤️";
       case "TOTEM": return "🧿";
       default: return "📌";
