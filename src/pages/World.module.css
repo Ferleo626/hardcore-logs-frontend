@@ -202,12 +202,11 @@
 
 /* Esto aplica un borde oscuro dinámico a la forma de la imagen */
 .eventIconImg {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   /* Object-fit: cover es la clave aquí. Estira la imagen para llenar el contenedor, */
   /* cortando los bordes blancos sobrantes. */
   object-fit: cover; 
-  image-rendering: pixelated;
   display: block;
 
   /* Volvemos a aplicar el drop-shadow para que el texto negro */
