@@ -115,14 +115,17 @@ function Home() {
       
       {/* 🔥 HEADER */}
       <h1 style={{ 
-        fontSize: "3.8rem",
-        color: "#ffc800",
-        textShadow: "4px 4px 0px #000",
-        letterSpacing: "1px",
-        textTransform: "uppercase"
-      }}>
-        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
-      </h1>
+            fontSize: "3.8rem",
+            color: "#ffc800",
+            textShadow: "4px 4px 0px #000",
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            marginBottom: "10px",
+            fontFamily: "'VT323', monospace",
+            fontWeight: "400" // 🔥 clave para VT323
+}}>
+  {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
+</h1>
 
       <p style={{ opacity: 0.8, marginBottom: "30px", letterSpacing: "1px" }}>
         Hardcore Minecraft Tracker Dashboard
