@@ -3,35 +3,51 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import buttonStyles from "../styles/Button.module.css";
 
-// 🎨 Estilos
+// 🎨 CONTENEDOR (fondo textura igual que World)
 const containerStyle = {
-  background: "radial-gradient(circle at center, #001f5c 0%, #001030 100%)",
+  backgroundImage: "url('/textures/azul_oscuro.png')",
+  backgroundRepeat: "repeat",
+  backgroundSize: "auto",
   minHeight: "100vh",
   color: "#ffc800",
   padding: "40px 20px",
   textAlign: "center",
-  fontFamily: "'VT323', monospace" // 🔥 CLAVE
+  fontFamily: "'VT323', monospace"
 };
 
+// 🎮 CARD estilo bloque Minecraft (botón)
 const cardStyle = {
-  background: "rgba(10, 10, 10, 0.85)",
-  borderRadius: "15px",
+  backgroundImage: "url('/textures/azul_oscuro.png')",
+  backgroundSize: "cover",
+
+  border: "3px solid #000",
+  borderBottom: "5px solid #ffc800",
+
   padding: "20px",
   margin: "15px auto",
   maxWidth: "600px",
+
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  borderBottom: "3px solid #ffc800",
-  boxShadow: "0 4px 15px rgba(0,0,0,0.5)"
+
+  boxShadow: `
+    inset -5px -5px 0px rgba(0,0,0,0.5),
+    inset 5px 5px 0px rgba(255,255,255,0.05)
+  `,
+
+  transition: "all 0.1s ease",
+  cursor: "pointer"
 };
 
+// 🎯 INPUT estilo pixel
 const inputStyle = {
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ffc800",
-  background: "rgba(255,255,255,0.1)",
-  color: "white",
+  background: "#000d26",
+  border: "2px solid #000",
+  color: "#fff",
+  padding: "10px",
+  fontFamily: "'VT323', monospace",
+  outline: "none",
   width: "70%",
   marginRight: "10px"
 };
@@ -52,7 +68,7 @@ function Home() {
       setWorlds(sortedWorlds);
     } catch (err) {
       console.error(err);
-      setError("No se pudo cargar los mundos. Verifica tu conexión o el servidor.");
+      setError("No se pudo cargar los mundos.");
     } finally {
       setLoading(false);
     }
@@ -66,7 +82,6 @@ function Home() {
       await getWorlds();
     } catch (error) {
       console.error(error);
-      alert("Error al crear el mundo.");
     }
   };
 
@@ -98,39 +113,38 @@ function Home() {
   return (
     <div style={containerStyle}>
       
-      {/* 🔥 HEADER DINÁMICO */}
+      {/* 🔥 HEADER */}
       <h1 style={{ 
-  fontSize: "3.8rem",
-  color: "#ffc800",
-  textShadow: "4px 4px 0px #000", // 🔥 estilo pixel real
-  letterSpacing: "1px", // 🔥 no exagerado
-  textTransform: "uppercase",
-  marginBottom: "10px",
-  fontFamily: "'VT323', monospace"
-}}>
-  {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
-</h1>
+        fontSize: "3.8rem",
+        color: "#ffc800",
+        textShadow: "4px 4px 0px #000",
+        letterSpacing: "1px",
+        textTransform: "uppercase"
+      }}>
+        {loading ? "CARGANDO..." : "🌍 MIS MUNDOS HARDCORE"}
+      </h1>
 
-      <p style={{ opacity: 0.7, marginBottom: "30px" }}>
+      <p style={{ opacity: 0.8, marginBottom: "30px", letterSpacing: "1px" }}>
         Hardcore Minecraft Tracker Dashboard
       </p>
 
-      {/* 🔥 ESTADO ERROR */}
+      {/* ERROR */}
       {!loading && error && (
-  <div style={{ textAlign: "center", marginBottom: "30px" }}>
-    <h1 style={{ color: "#ffc800", fontSize: "2rem", textShadow: "0 0 12px rgba(255,0,0,0.8)" }}>
-      ERROR DE CONEXIÓN
-    </h1>
+        <div style={{ marginBottom: "30px" }}>
+          <h2 style={{ textShadow: "3px 3px 0px #000" }}>
+            ERROR DE CONEXIÓN
+          </h2>
 
-    <button className={buttonStyles.buttonRetry} onClick={getWorlds}>
-      🔄 REINTENTAR CONEXIÓN
-    </button>
-  </div>
-)}
-      {/* 🔥 CONTENIDO SOLO SI NO HAY ERROR */}
+          <button className={buttonStyles.buttonRetry} onClick={getWorlds}>
+            🔄 REINTENTAR
+          </button>
+        </div>
+      )}
+
+      {/* CONTENIDO */}
       {!loading && !error && (
         <>
-          {/* Crear mundo */}
+          {/* CREAR MUNDO */}
           <div style={{ marginBottom: "30px" }}>
             <input
               type="text"
@@ -139,44 +153,59 @@ function Home() {
               onChange={(e) => setName(e.target.value)}
               style={inputStyle}
             />
+
             <button
               onClick={createWorld}
               style={{
-                padding: "12px 20px",
-                background: "#ffc800",
-                color: "#001030",
-                border: "none",
-                borderRadius: "8px",
+                background: "#0055ff",
+                color: "white",
+                border: "3px solid #000",
+                boxShadow: "inset -3px -3px 0px #003399, inset 3px 3px 0px #6699ff",
+                padding: "10px 20px",
                 cursor: "pointer",
-                fontWeight: "bold"
+                fontFamily: "'VT323', monospace"
               }}
             >
-              Crear
+              CREAR
             </button>
           </div>
 
-          {/* Lista de mundos */}
+          {/* LISTA */}
           {worlds.length === 0 ? (
             <p>No hay mundos todavía.</p>
           ) : (
             worlds.map((w) => (
-              <div key={w._id} style={cardStyle}>
+              <div
+                key={w._id}
+                style={cardStyle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.03)";
+                  e.currentTarget.style.filter = "brightness(1.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.filter = "brightness(1)";
+                }}
+              >
                 <div
                   onClick={() => navigate(`/world/${w._id}`)}
-                  style={{ cursor: "pointer", flex: 1, textAlign: "left" }}
+                  style={{ flex: 1, textAlign: "left" }}
                 >
-                  <span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+                  <span style={{ 
+                    fontSize: "1.4rem",
+                    textShadow: "3px 3px 0px #000"
+                  }}>
                     {w.name}
                   </span>
 
                   {w.active && (
                     <span style={{
                       marginLeft: "10px",
-                      background: "#27ae60",
-                      padding: "3px 8px",
-                      borderRadius: "10px",
-                      fontSize: "0.75rem",
-                      fontWeight: "bold"
+                      background: "#22c55e",
+                      padding: "4px 10px",
+                      border: "2px solid #000",
+                      fontSize: "0.7rem",
+                      boxShadow: "inset -2px -2px 0px rgba(0,0,0,0.4)"
                     }}>
                       ACTIVO
                     </span>
@@ -188,37 +217,38 @@ function Home() {
                     <button
                       onClick={() => activateWorld(w._id, w.name)}
                       style={{
-                        padding: "8px 15px",
                         background: "#444",
                         color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer"
+                        border: "3px solid #000",
+                        padding: "8px 15px",
+                        cursor: "pointer",
+                        fontFamily: "'VT323', monospace"
                       }}
                     >
-                      Usar
+                      USAR
                     </button>
                   )}
 
                   <button
                     onClick={() => deleteWorld(w._id)}
                     style={{
-                      padding: "8px 15px",
-                      background: "#ff4444",
+                      background: "#ff4d4d",
                       color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer"
+                      border: "3px solid #000",
+                      boxShadow: "inset -3px -3px 0px #992222, inset 3px 3px 0px #ff8080",
+                      padding: "8px 15px",
+                      cursor: "pointer",
+                      fontFamily: "'VT323', monospace"
                     }}
                   >
-                    Borrar
+                    BORRAR
                   </button>
                 </div>
               </div>
             ))
           )}
 
-          <p style={{ marginTop: "20px", fontSize: "0.85rem", opacity: 0.7 }}>
+          <p style={{ marginTop: "20px", fontSize: "0.9rem", opacity: 0.7 }}>
             Haz clic en un mundo para ver detalles.
           </p>
         </>
