@@ -16,7 +16,10 @@ function World() {
 
   const [loadingWorld, setLoadingWorld] = useState(true);
   const [worldError, setWorldError] = useState(false);
-
+// --- IA SUMMARY ---
+const [aiSummary, setAiSummary] = useState("");
+const [loadingSummary, setLoadingSummary] = useState(false);
+const [selectedStyle, setSelectedStyle] = useState("epic");
   // Estados del formulario manual
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
@@ -184,6 +187,21 @@ const speak = (text) => {
       throw err;
     }
   };
+  const generateSummary = async () => {
+  setLoadingSummary(true);
+  try {
+    const res = await API.post(`/summary/${id}`, {
+      style: selectedStyle
+    });
+
+    setAiSummary(res.data.aiSummary);
+  } catch (err) {
+    console.error("Error al generar resumen:", err);
+    setAiSummary("La brújula se rompió... no se pudo generar la crónica.");
+  } finally {
+    setLoadingSummary(false);
+  }
+};
 
   const getWorldData = async () => {
     setLoadingWorld(true);
@@ -427,7 +445,33 @@ const isImportantEvent = (type) => {
     <span>{getDimensionName(lastDimension)}</span>
   </div>
 </div>
+<div className={styles.summaryContainer}>
+  <div className={styles.summaryControls}>
+    <select 
+      value={selectedStyle} 
+      onChange={(e) => setSelectedStyle(e.target.value)}
+      className={styles.selectStyle}
+    >
+      <option value="epic">⚔️ Épico</option>
+      <option value="meme">💀 Meme</option>
+      <option value="lore">📜 Lore</option>
+    </select>
 
+    <button 
+      onClick={generateSummary} 
+      disabled={loadingSummary}
+      className={styles.btnGenerate}
+    >
+      {loadingSummary ? "Escribiendo..." : "✨ Generar Crónica"}
+    </button>
+  </div>
+
+  {aiSummary && (
+    <div className={styles.aiBox}>
+      <p className={styles.aiText}>{aiSummary}</p>
+    </div>
+  )}
+</div>
 <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
   <button className={buttonStyles.button} onClick={exportImage}>
     📸 Exportar
