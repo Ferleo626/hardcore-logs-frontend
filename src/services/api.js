@@ -27,4 +27,10 @@ API.interceptors.response.use(
   }
 );
 
+// 📊 RESUMEN (integrado correctamente con Axios)
+export const getSummary = async (worldId) => {
+  const res = await API.get(`/events/summary/${worldId}`);
+  return res.data;
+};
+
 export default API;

@@ -4,6 +4,7 @@ import API from "../services/api";
 import { io } from "socket.io-client";
 import buttonStyles from "../styles/Button.module.css";
 import styles from "./World.module.css";
+import html2canvas from "html2canvas";
 
 
 function World() {
@@ -142,7 +143,26 @@ const getCardType = (type) => {
     if (dim === "END" || dim === "THE_END") return { color: "#a64dff", fontWeight: "bold" };
     return { color: "#55ff55", fontWeight: "bold" };
   };
+// 📸 EXPORTAR IMAGEN
+const exportImage = async () => {
+  const element = document.getElementById("card");
+  if (!element) return;
 
+  const canvas = await html2canvas(element);
+  const image = canvas.toDataURL("image/png");
+
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "run.png";
+  link.click();
+};
+
+// 🔊 VOZ
+const speak = (text) => {
+  if (!text) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  speechSynthesis.speak(utterance);
+};
   // --- LLAMADAS A API ---
   const getEvents = async () => {
     if (!id) return;
@@ -385,9 +405,43 @@ const isImportantEvent = (type) => {
   border: "2px solid #ffc800",
   boxShadow: "0 0 15px rgba(255,200,0,0.3)"
 }}>
+  <div
+  id="card"
+  style={{
+    background: "rgba(0,0,0,0.6)",
+    padding: "20px",
+    borderRadius: "12px",
+    marginBottom: "30px",
+    border: "2px solid #ffc800",
+    boxShadow: "0 0 15px rgba(255,200,0,0.3)"
+  }}
+>
   <h3 style={{ color: "#ffc800", marginBottom: "10px" }}>
     🧭 Resumen de la run
   </h3>
+
+  <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+    <span>⏱ {getDuration()}</span>
+    <span>💀 {deaths}</span>
+    <span>💎 {diamonds}</span>
+    <span>{getDimensionName(lastDimension)}</span>
+  </div>
+</div>
+
+<div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+  <button className={buttonStyles.button} onClick={exportImage}>
+    📸 Exportar
+  </button>
+
+  <button
+    className={buttonStyles.button}
+    onClick={() =>
+      speak(`Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`)
+    }
+  >
+    🔊 Narrar
+  </button>
+</div>
 
   <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
     <span>⏱ {getDuration()}</span>
