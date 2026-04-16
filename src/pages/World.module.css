@@ -287,3 +287,10 @@
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.containerBox {
+  padding: 20px;
+  background-image: url("/textures/azul_oscuro.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
