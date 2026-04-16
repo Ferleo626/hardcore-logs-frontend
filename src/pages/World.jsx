@@ -443,12 +443,7 @@ const isImportantEvent = (type) => {
     Agregar
   </button>
 </div>
-<div style={{
-  
-  backgroundImage: url(/textures/azul_oscuro.png),
-  padding: "20px",
-
-}}>
+<div className={styles.containerBox}>
  <div
   id="card"
   style={{
