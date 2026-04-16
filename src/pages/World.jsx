@@ -444,8 +444,10 @@ const isImportantEvent = (type) => {
   </button>
 </div>
 <div style={{
-  background: "rgba(0,0,0,0.6)",
+  
+  backgroundImage: url(/textures/azul_oscuro.png),
   padding: "20px",
+
 }}>
  <div
   id="card"
