@@ -193,17 +193,17 @@ const speak = (text) => {
       throw err;
     }
   };
-  const generateSummary = async () => {
+  const generateSummary = async (style = "epic") => {
   setLoadingSummary(true);
   try {
     const res = await API.post(`/summary/${id}`, {
-      style: selectedStyle
+      style
     });
 
     setAiSummary(res.data.aiSummary);
   } catch (err) {
-    console.error("Error al generar resumen:", err);
-    setAiSummary("La brújula se rompió... no se pudo generar la crónica.");
+    console.error("Error resumen:", err);
+    setAiSummary("❌ Error generando resumen");
   } finally {
     setLoadingSummary(false);
   }
@@ -429,75 +429,134 @@ const isImportantEvent = (type) => {
   border: "2px solid #ffc800",
   boxShadow: "0 0 15px rgba(255,200,0,0.3)"
 }}>
-  <div
+ <div
   id="card"
   style={{
-    background: "rgba(0,0,0,0.6)",
-    padding: "20px",
-    borderRadius: "12px",
-    marginBottom: "30px",
-    border: "2px solid #ffc800",
-    boxShadow: "0 0 15px rgba(255,200,0,0.3)"
+    width: "800px",
+    maxWidth: "100%",
+    background: "linear-gradient(135deg, #0f172a, #020617)",
+    padding: "30px",
+    borderRadius: "16px",
+    border: "3px solid #38bdf8",
+    boxShadow: "0 0 30px rgba(56,189,248,0.3)",
+    color: "white",
+    fontFamily: "monospace",
+    position: "relative",
+    overflow: "hidden"
   }}
 >
-  <h3 style={{ color: "#ffc800", marginBottom: "10px" }}>
-    🧭 Resumen de la run
-  </h3>
+  {/* glow */}
+  <div style={{
+    position: "absolute",
+    top: "-50px",
+    right: "-50px",
+    width: "200px",
+    height: "200px",
+    background: "rgba(56,189,248,0.2)",
+    filter: "blur(80px)"
+  }} />
 
-  <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+  <h2 style={{ color: "#38bdf8", marginBottom: "15px", fontSize: "24px" }}>
+    🧭 Hardcore Run Summary
+  </h2>
+
+  <p style={{ opacity: 0.7, marginBottom: "20px" }}>
+    {world?.name || "Mundo desconocido"}
+  </p>
+
+  {/* stats */}
+  <div style={{
+    display: "flex",
+    gap: "20px",
+    marginBottom: "20px",
+    flexWrap: "wrap"
+  }}>
     <span>⏱ {getDuration()}</span>
     <span>💀 {deaths}</span>
     <span>💎 {diamonds}</span>
     <span>{getDimensionName(lastDimension)}</span>
   </div>
-</div>
-<div className={styles.summaryContainer}>
-  <div className={styles.summaryControls}>
-    <select 
-      value={selectedStyle} 
-      onChange={(e) => setSelectedStyle(e.target.value)}
-      className={styles.selectStyle}
+
+  {/* IA integrada */}
+  <div style={{
+    background: "rgba(255,255,255,0.05)",
+    padding: "15px",
+    borderRadius: "10px",
+    border: "1px solid rgba(255,255,255,0.1)",
+    minHeight: "80px",
+    lineHeight: "1.6",
+    fontStyle: "italic"
+  }}>
+    {loadingSummary 
+      ? "Generando crónica..." 
+      : (aiSummary || "Generá un resumen 👇")}
+  </div>
+
+  {/* acciones */}
+  <div style={{ 
+    display: "flex", 
+    gap: "10px", 
+    marginTop: "20px",
+    flexWrap: "wrap"
+  }}>
+    <button 
+      className={buttonStyles.button} 
+      onClick={() => generateSummary("epic")}
     >
-      <option value="epic">⚔️ Épico</option>
-      <option value="meme">💀 Meme</option>
-      <option value="lore">📜 Lore</option>
-    </select>
+      ⚔️ Épico
+    </button>
 
     <button 
-      onClick={generateSummary} 
-      disabled={loadingSummary}
-      className={styles.btnGenerate}
+      className={buttonStyles.button} 
+      onClick={() => generateSummary("meme")}
     >
-      {loadingSummary ? "Escribiendo..." : "✨ Generar Crónica"}
+      😂 Meme
+    </button>
+
+    <button 
+      className={buttonStyles.button} 
+      onClick={() => generateSummary("lore")}
+    >
+      🧙 Lore
+    </button>
+
+    <button 
+      className={buttonStyles.button} 
+      onClick={() => generateSummary("tecnico")}
+    >
+      📊 Técnico
+    </button>
+
+    <button 
+      className={buttonStyles.button} 
+      onClick={exportImage}
+    >
+      📸 Exportar
+    </button>
+
+    <button
+      className={buttonStyles.button}
+      onClick={() =>
+        speak(
+          aiSummary || 
+          `Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`
+        )
+      }
+    >
+      🔊 Narrar
     </button>
   </div>
 
-  {aiSummary && (
-  <div className={styles.aiBox}>
-    <p className={styles.aiText}>{aiSummary}</p>
-
-    <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
-      <button className={buttonStyles.button} onClick={exportImage}>
-        📸 Exportar
-      </button>
-
-      <button
-        className={buttonStyles.button}
-        onClick={() =>
-          speak(aiSummary || `Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`)
-        }
-      >
-        🔊 Narrar
-      </button>
-    </div>
+  {/* watermark */}
+  <div style={{
+    position: "absolute",
+    bottom: "10px",
+    right: "15px",
+    fontSize: "12px",
+    opacity: 0.4
+  }}>
+    hardcorelogs.app
   </div>
-)}
-</div>
-<div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-  <button className={buttonStyles.button} onClick={exportImage}>
-    📸 Exportar
-  </button>
-
 </div>
 
 </div>
