@@ -287,3 +287,52 @@
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.summaryContainer {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid #ffc800;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.summaryControls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.selectStyle {
+  background: #1a1a2e;
+  color: white;
+  border: 1px solid #ffc800;
+  padding: 5px;
+  font-family: 'Minecraftia', sans-serif;
+}
+
+.btnGenerate {
+  background: #ffc800;
+  color: #1a1a2e;
+  border: none;
+  padding: 8px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Minecraftia', sans-serif;
+  transition: 0.3s;
+}
+
+.btnGenerate:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.aiBox {
+  border-top: 1px dashed #ffc800;
+  padding-top: 10px;
+  font-style: italic;
+  color: #55ffff; /* Color diamante */
+}
+
+.aiText {
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
