@@ -445,10 +445,7 @@ const isImportantEvent = (type) => {
 </div>
 <div style={{
   background: "rgba(0,0,0,0.6)",
-  borderRadius: "12px",
-  marginBottom: "30px",
-  border: "2px solid #ffc800",
-  boxShadow: "0 0 15px rgba(255,200,0,0.3)"
+  
 }}>
  <div
   id="card"
