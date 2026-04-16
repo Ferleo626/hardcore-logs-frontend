@@ -509,62 +509,146 @@ const isImportantEvent = (type) => {
 
   {/* acciones */}
   <div style={{ 
-    display: "flex", 
-    gap: "10px", 
-    marginTop: "20px",
-    flexWrap: "wrap"
-  }}>
-    <button 
-      className={buttonStyles.button} 
-      onClick={() => generateSummary("epic")}
-    >
-      ⚔️ Épico
-    </button>
+  display: "flex", 
+  gap: "14px", 
+  marginTop: "20px",
+  flexWrap: "wrap",
+  alignItems: "center"
+}}>
 
-    <button 
-      className={buttonStyles.button} 
-      onClick={() => generateSummary("meme")}
-    >
-      😂 Meme
-    </button>
+  {/* ÉPICO */}
+  <img
+    src="/icons/epico.png"
+    alt="Épico"
+    style={{
+      height: "42px",
+      imageRendering: "pixelated",
+      cursor: "pointer",
+      transition: "all 0.1s ease",
+      filter: "drop-shadow(3px 3px 0px #000)"
+    }}
+    onClick={() => generateSummary("epic")}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = "scale(1.08)";
+      e.currentTarget.style.filter = "brightness(1.2) drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = "scale(1)";
+      e.currentTarget.style.filter = "drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseDown={(e) => {
+      e.currentTarget.style.transform = "scale(0.95) translateY(2px)";
+      e.currentTarget.style.filter = "brightness(0.9)";
+    }}
+  />
 
-    <button 
-      className={buttonStyles.button} 
-      onClick={() => generateSummary("lore")}
-    >
-      🧙 Lore
-    </button>
+  {/* MEME */}
+  <img
+    src="/icons/meme.png"
+    alt="Meme"
+    style={{
+      height: "42px",
+      imageRendering: "pixelated",
+      cursor: "pointer",
+      transition: "all 0.1s ease",
+      filter: "drop-shadow(3px 3px 0px #000)"
+    }}
+    onClick={() => generateSummary("meme")}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = "scale(1.08)";
+      e.currentTarget.style.filter = "brightness(1.2) drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = "scale(1)";
+      e.currentTarget.style.filter = "drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseDown={(e) => {
+      e.currentTarget.style.transform = "scale(0.95) translateY(2px)";
+      e.currentTarget.style.filter = "brightness(0.9)";
+    }}
+  />
 
-    <button 
-      className={buttonStyles.button} 
-      onClick={() => generateSummary("tecnico")}
-    >
-      📊 Técnico
-    </button>
+  {/* LORE */}
+  <img
+    src="/icons/lore.png"
+    alt="Lore"
+    style={{
+      height: "42px",
+      imageRendering: "pixelated",
+      cursor: "pointer",
+      transition: "all 0.1s ease",
+      filter: "drop-shadow(3px 3px 0px #000)"
+    }}
+    onClick={() => generateSummary("lore")}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = "scale(1.08)";
+      e.currentTarget.style.filter = "brightness(1.2) drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = "scale(1)";
+      e.currentTarget.style.filter = "drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseDown={(e) => {
+      e.currentTarget.style.transform = "scale(0.95) translateY(2px)";
+      e.currentTarget.style.filter = "brightness(0.9)";
+    }}
+  />
 
-    <button
-  className={buttonStyles.button}
-  onClick={exportImage}
-  disabled={speechSynthesis.speaking}
-  style={{
-    opacity: speechSynthesis.speaking ? 0.5 : 1,
-    cursor: speechSynthesis.speaking ? "not-allowed" : "pointer"
-  }}
->
-  📸 Exportar
-</button>
-    <button
-      className={buttonStyles.button}
-      onClick={() =>
-        speak(
-          aiSummary || 
-          `Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`
-        )
-      }
-    >
-      🔊 Narrar
-    </button>
-  </div>
+  {/* EXPORTAR */}
+  <img
+    src="/icons/exportar.png"
+    alt="Exportar"
+    style={{
+      height: "42px",
+      imageRendering: "pixelated",
+      cursor: "pointer",
+      transition: "all 0.1s ease",
+      filter: "drop-shadow(3px 3px 0px #000)"
+    }}
+    onClick={exportImage}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = "scale(1.08)";
+      e.currentTarget.style.filter = "brightness(1.2) drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = "scale(1)";
+      e.currentTarget.style.filter = "drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseDown={(e) => {
+      e.currentTarget.style.transform = "scale(0.95) translateY(2px)";
+      e.currentTarget.style.filter = "brightness(0.9)";
+    }}
+  />
+
+  {/* NARRAR */}
+  <img
+    src="/icons/narrar.png"
+    alt="Narrar"
+    style={{
+      height: "42px",
+      imageRendering: "pixelated",
+      cursor: "pointer",
+      transition: "all 0.1s ease",
+      filter: "drop-shadow(3px 3px 0px #000)"
+    }}
+    onClick={() =>
+      speak(aiSummary || `Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`)
+    }
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = "scale(1.08)";
+      e.currentTarget.style.filter = "brightness(1.2) drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = "scale(1)";
+      e.currentTarget.style.filter = "drop-shadow(3px 3px 0px #000)";
+    }}
+    onMouseDown={(e) => {
+      e.currentTarget.style.transform = "scale(0.95) translateY(2px)";
+      e.currentTarget.style.filter = "brightness(0.9)";
+    }}
+  />
+
+</div>
 
   {/* watermark */}
   <div style={{
