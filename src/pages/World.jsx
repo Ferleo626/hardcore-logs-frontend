@@ -445,7 +445,7 @@ const isImportantEvent = (type) => {
 </div>
 <div style={{
   background: "rgba(0,0,0,0.6)",
-  
+  padding: "20px",
 }}>
  <div
   id="card"
