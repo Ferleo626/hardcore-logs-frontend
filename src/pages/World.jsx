@@ -148,15 +148,28 @@ const getCardType = (type) => {
   };
 // 📸 EXPORTAR IMAGEN
 const exportImage = async () => {
+  // 🔥 detener narración activa
+  if (speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+  }
+
   const element = document.getElementById("card");
   if (!element) return;
 
-  const canvas = await html2canvas(element);
+  // 🔥 pequeño delay para evitar canvas blanco
+  await new Promise(resolve => setTimeout(resolve, 300));
+
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: null
+  });
+
   const image = canvas.toDataURL("image/png");
 
   const link = document.createElement("a");
   link.href = image;
-  link.download = "run.png";
+  link.download = `hardcore-run-${Date.now()}.png`;
   link.click();
 };
 
@@ -164,12 +177,21 @@ const exportImage = async () => {
 const speak = (text) => {
   if (!text) return;
 
+  // 🔥 evita superposición / bugs
+  if (speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+  }
+
   const utterance = new SpeechSynthesisUtterance(text);
+
   utterance.lang = "es-ES";
-  utterance.pitch = 0.8; // más grave = más épico
+  utterance.pitch = 0.8;
   utterance.rate = 1;
 
-  speechSynthesis.cancel(); // evita solaparse
+  utterance.onend = () => {
+    console.log("🔊 Narración terminada");
+  };
+
   speechSynthesis.speak(utterance);
 };
   // --- LLAMADAS A API ---
@@ -432,13 +454,14 @@ const isImportantEvent = (type) => {
  <div
   id="card"
   style={{
-    width: "800px",
-    maxWidth: "100%",
-    background: "linear-gradient(135deg, #0f172a, #020617)",
-    padding: "30px",
-    borderRadius: "16px",
-    border: "3px solid #38bdf8",
-    boxShadow: "0 0 30px rgba(56,189,248,0.3)",
+    width: "100%", // 🔥 ocupa todo el ancho del contenedor amarillo
+    maxWidth: "1100px", // 🔥 mismo feeling que el marco amarillo
+    margin: "0 auto",
+    background: "linear-gradient(135deg, #1a1200, #020617)",
+    padding: "35px",
+    borderRadius: "18px",
+    border: "3px solid #ffc800", // 🔥 amarillo principal
+    boxShadow: "0 0 30px rgba(255,200,0,0.4)",
     color: "white",
     fontFamily: "monospace",
     position: "relative",
@@ -452,11 +475,11 @@ const isImportantEvent = (type) => {
     right: "-50px",
     width: "200px",
     height: "200px",
-    background: "rgba(56,189,248,0.2)",
+    background: "rgba(255,200,0,0.25)",
     filter: "blur(80px)"
   }} />
 
-  <h2 style={{ color: "#38bdf8", marginBottom: "15px", fontSize: "24px" }}>
+  <h2 style={{ color: "#ffc800", marginBottom: "15px", fontSize: "24px" }}>
     🧭 Hardcore Run Summary
   </h2>
 
@@ -479,18 +502,19 @@ const isImportantEvent = (type) => {
 
   {/* IA integrada */}
   <div style={{
-    background: "rgba(255,255,255,0.05)",
-    padding: "15px",
-    borderRadius: "10px",
-    border: "1px solid rgba(255,255,255,0.1)",
-    minHeight: "80px",
-    lineHeight: "1.6",
-    fontStyle: "italic"
-  }}>
-    {loadingSummary 
-      ? "Generando crónica..." 
-      : (aiSummary || "Generá un resumen 👇")}
-  </div>
+  background: "rgba(255,200,0,0.05)",
+  padding: "18px",
+  borderRadius: "12px",
+  border: "1px solid rgba(255,200,0,0.2)",
+  minHeight: "80px",
+  lineHeight: "1.6",
+  fontStyle: "italic",
+  boxShadow: "inset 0 0 10px rgba(255,200,0,0.1)"
+}}>
+  {loadingSummary 
+    ? "Generando crónica..." 
+    : (aiSummary || "Generá un resumen 👇")}
+</div>
 
   {/* acciones */}
   <div style={{ 
@@ -527,13 +551,17 @@ const isImportantEvent = (type) => {
       📊 Técnico
     </button>
 
-    <button 
-      className={buttonStyles.button} 
-      onClick={exportImage}
-    >
-      📸 Exportar
-    </button>
-
+    <button
+  className={buttonStyles.button}
+  onClick={exportImage}
+  disabled={speechSynthesis.speaking}
+  style={{
+    opacity: speechSynthesis.speaking ? 0.5 : 1,
+    cursor: speechSynthesis.speaking ? "not-allowed" : "pointer"
+  }}
+>
+  📸 Exportar
+</button>
     <button
       className={buttonStyles.button}
       onClick={() =>
@@ -555,7 +583,7 @@ const isImportantEvent = (type) => {
     fontSize: "12px",
     opacity: 0.4
   }}>
-    hardcorelogs.app
+    hardcorelogs.vercel.app
   </div>
 </div>
 
