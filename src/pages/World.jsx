@@ -445,7 +445,6 @@ const isImportantEvent = (type) => {
 </div>
 <div style={{
   background: "rgba(0,0,0,0.6)",
-  padding: "20px",
   borderRadius: "12px",
   marginBottom: "30px",
   border: "2px solid #ffc800",
@@ -455,11 +454,10 @@ const isImportantEvent = (type) => {
   id="card"
   style={{
     width: "100%", // 🔥 ocupa todo el ancho del contenedor amarillo
-    maxWidth: "1100px", // 🔥 mismo feeling que el marco amarillo
+    maxWidth: "970px", // 🔥 mismo feeling que el marco amarillo
     margin: "0 auto",
     background: "linear-gradient(135deg, #1a1200, #020617)",
     padding: "35px",
-    borderRadius: "18px",
     border: "3px solid #ffc800", // 🔥 amarillo principal
     boxShadow: "0 0 30px rgba(255,200,0,0.4)",
     color: "white",
@@ -468,7 +466,6 @@ const isImportantEvent = (type) => {
     overflow: "hidden"
   }}
 >
-  {/* glow */}
   <div style={{
     position: "absolute",
     top: "-50px",
