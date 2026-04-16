@@ -163,7 +163,13 @@ const exportImage = async () => {
 // 🔊 VOZ
 const speak = (text) => {
   if (!text) return;
+
   const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "es-ES";
+  utterance.pitch = 0.8; // más grave = más épico
+  utterance.rate = 1;
+
+  speechSynthesis.cancel(); // evita solaparse
   speechSynthesis.speak(utterance);
 };
   // --- LLAMADAS A API ---
@@ -467,32 +473,33 @@ const isImportantEvent = (type) => {
   </div>
 
   {aiSummary && (
-    <div className={styles.aiBox}>
-      <p className={styles.aiText}>{aiSummary}</p>
+  <div className={styles.aiBox}>
+    <p className={styles.aiText}>{aiSummary}</p>
+
+    <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+      <button className={buttonStyles.button} onClick={exportImage}>
+        📸 Exportar
+      </button>
+
+      <button
+        className={buttonStyles.button}
+        onClick={() =>
+          speak(aiSummary || `Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`)
+        }
+      >
+        🔊 Narrar
+      </button>
     </div>
-  )}
+  </div>
+)}
 </div>
 <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
   <button className={buttonStyles.button} onClick={exportImage}>
     📸 Exportar
   </button>
 
-  <button
-    className={buttonStyles.button}
-    onClick={() =>
-      speak(`Duración ${getDuration()}, ${deaths} muertes y ${diamonds} diamantes`)
-    }
-  >
-    🔊 Narrar
-  </button>
 </div>
 
-  <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-    <span>⏱ {getDuration()}</span>
-    <span>💀 {deaths}</span>
-    <span>💎 {diamonds}</span>
-    <span>{getDimensionName(lastDimension)}</span>
-  </div>
 </div>
         {/* GRID DE ESTADÍSTICAS */}
         <div className={styles.statsGrid}>
