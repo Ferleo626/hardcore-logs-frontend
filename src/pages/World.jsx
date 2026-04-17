@@ -49,7 +49,10 @@ const normalizeType = (type) => {
   if (t.includes("CREEPER")) return "KILL_CREEPER";
   if (t.includes("ENDERMAN")) return "KILL_ENDERMAN";
 
-  if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
+  if (t === "GET_TOTEM") return "TOTEM";
+  if (t === "GET_NOTCH_APPLE") return "NOTCH_APPLE";
+  if (t === "GET_GOLD_INGOT") return "GOLD_INGOT";
+  if (t === "GET_NETHERITE_INGOT") return "NETHERITE";
 
   return t;
 };
@@ -75,7 +78,6 @@ const getCardType = (type) => {
     switch (type) {
       case "PLAYER_DEATH": return "/icons/you_died.png";
       case "MINED_DIAMOND": return "/icons/Diamond.png";
-      case "ANCIENT_DEBRIS": return "/icons/ancient_debris.png";
       case "NETHER": return "/icons/lava.png";
       case "END": return "/icons/endstone.png";
       case "DRAGON": return "/icons/enderdragon.png";
@@ -85,6 +87,10 @@ const getCardType = (type) => {
       case "TOTEM": return "/icons/totem.png";
       case "KILL_ENDERMAN": return "/icons/enderman.png";
       case "ENTER_OVERWORLD": return "/icons/tierra.png";
+      case "TOTEM": return "/icons/totem.png";
+      case "NOTCH_APPLE": return "/icons/notch_apple.png";
+      case "GOLD_INGOT": return "/icons/gold_ingot.png";
+      case "NETHERITE": return "/icons/netherite.png";
       default: return "📌";
     }
   };
@@ -121,8 +127,21 @@ const getCardType = (type) => {
     case "KILL_SKELETON":
       return `${player} mató un Esqueleto 🏹`;
 
+    case "TOTEM":
+      return `${player} consiguió un Totem 🗿`;
+
+     case "NOTCH_APPLE":
+      return `${player} consiguió una Notch Apple 🍎`;
+
+     case "GOLD_INGOT":
+     return `${player} consiguió oro 🪙`;
+
+     case "NETHERITE":
+     return `${player} consiguió Netherite 🔥`;
+
     default:
       return event.description || "Evento detectado";
+      
   }
 };
 
@@ -364,7 +383,7 @@ const isImportantEvent = (type) => {
   // --- CONTADORES ---
   const deaths = events.filter(e => normalizeType(e.type) === "PLAYER_DEATH").length;
   const diamonds = events.filter(e => normalizeType(e.type) === "MINED_DIAMOND").length;
-  const debris = events.filter(e => normalizeType(e.type) === "ANCIENT_DEBRIS").length;
+  const netherite = events.filter(e => normalizeType(e.type) === "NETHERITE").length;
   const zombieKills = events.filter(e => normalizeType(e.type) === "KILL_ZOMBIE").length;
   const creeperKills = events.filter(e => normalizeType(e.type) === "KILL_CREEPER").length;
   const skeletonKills = events.filter(e => normalizeType(e.type) === "KILL_SKELETON").length;
@@ -683,7 +702,7 @@ const isImportantEvent = (type) => {
 
           <div className={styles.statItem} style={{ borderLeft: "5px solid #ff9900" }}>
             <div className={styles.statLabel}>NETHERITE 🔥</div>
-            <div className={styles.statValue} style={{ color: "#ff9900" }}>{debris}</div>
+            <div className={styles.statValue} style={{ color: "#ff9900" }}>{netherite}</div>
           </div>
 
           <div className={styles.statItem} style={{ borderLeft: "5px solid #55ff55" }}>
