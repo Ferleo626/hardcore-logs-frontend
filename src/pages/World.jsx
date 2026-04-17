@@ -29,25 +29,31 @@ const [selectedStyle, setSelectedStyle] = useState("epic");
   const [z, setZ] = useState("");
 
   // --- FUNCIONES AUXILIARES ---
-  const normalizeType = (type) => {
+  
+const normalizeType = (type) => {
   if (!type) return "UNKNOWN";
 
-  const t = type.toUpperCase().replace(/\s+/g, '_');
+  const t = type.toUpperCase().trim();
 
-  if (["DEATH", "PLAYER_DEATH"].includes(t)) return "PLAYER_DEATH";
-  if (["DIAMOND", "MINED_DIAMOND"].includes(t)) return "MINED_DIAMOND";
+  // EXACTOS primero
+  if (t === "PLAYER_DEATH" || t === "DEATH") return "PLAYER_DEATH";
+  if (t === "MINED_DIAMOND" || t === "DIAMOND") return "MINED_DIAMOND";
+
+  if (t === "ENTER_NETHER") return "NETHER";
+  if (t === "ENTER_END") return "END";
+  if (t === "ENTER_OVERWORLD") return "ENTER_OVERWORLD";
+
+  // KILLS
   if (t.includes("ZOMBIE")) return "KILL_ZOMBIE";
   if (t.includes("SKELETON")) return "KILL_SKELETON";
   if (t.includes("CREEPER")) return "KILL_CREEPER";
   if (t.includes("ENDERMAN")) return "KILL_ENDERMAN";
-  // 🔥 FIX REAL
-  if (t.includes("NETHER")) return "NETHER";
-  if (t.includes("OVERWORLD")) return "ENTER_OVERWORLD";
-  if (t.includes("END")) return "END";
+
   if (t.includes("ANCIENT") || t.includes("DEBRIS")) return "ANCIENT_DEBRIS";
 
   return t;
 };
+
 const getCardType = (type) => {
   switch (type) {
     case "PLAYER_DEATH": return "death";
