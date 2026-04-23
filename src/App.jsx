@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar"; // Asegurate de que el path sea correcto
 import Footer from "./components/Footer"; // El componente que creamos recién
+import AuthSuccess from "./pages/AuthSuccess";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          <Route path="/auth-success" element={<AuthSuccess />} />
           <Route
             path="/"
             element={
