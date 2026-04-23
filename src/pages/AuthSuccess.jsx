@@ -2,19 +2,28 @@ import { useEffect } from "react";
 
 export default function AuthSuccess() {
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get("token");
+    const urlToken = new URLSearchParams(window.location.search).get("token");
 
-    if (!token || token.includes("error")) {
-      console.error("❌ Token inválido");
+    console.log("🔍 Token desde URL:", urlToken);
+
+    if (!urlToken) {
+      console.log("❌ No hay token → redirigiendo");
       window.location.replace("/");
       return;
     }
 
-    localStorage.setItem("token", token);
+    try {
+      localStorage.setItem("token", urlToken);
 
-    console.log("✅ Token guardado");
+      console.log("✅ Token guardado:", urlToken);
 
-    window.location.replace("/");
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 100);
+    } catch (e) {
+      console.log("❌ Error guardando token", e);
+      window.location.replace("/");
+    }
   }, []);
 
   return <h1>Conectando...</h1>;
