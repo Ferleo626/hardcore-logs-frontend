@@ -1,27 +1,26 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import Home from "./pages/Home";
 import World from "./pages/World";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar"; // Asegurate de que el path sea correcto
-import Footer from "./components/Footer"; // El componente que creamos recién
 import AuthSuccess from "./pages/AuthSuccess";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    /* Contenedor principal para que el Footer siempre esté al fondo */
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      
-      {/* La Navbar la podés dejar acá afuera si querés que aparezca siempre */}
+
       <Navbar />
 
-      {/* El contenido principal crece para empujar al footer */}
       <main style={{ flex: 1 }}>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+
+          {/* 🔐 LOGIN ÚNICO DEL MOD */}
           <Route path="/auth-success" element={<AuthSuccess />} />
+
+          {/* 🏠 HOME PROTEGIDO */}
           <Route
             path="/"
             element={
@@ -31,6 +30,7 @@ function App() {
             }
           />
 
+          {/* 🌍 WORLD PROTEGIDO */}
           <Route
             path="/world/:id"
             element={
@@ -39,11 +39,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* 🚫 CUALQUIER RUTA INVALIDA */}
+          <Route path="*" element={<Navigate to="/" />} />
+
         </Routes>
       </main>
 
-      {/* 🔥 El Footer globalizado del Oso Xeneize */}
       <Footer />
+
     </div>
   );
 }

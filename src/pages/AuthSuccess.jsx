@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthSuccess() {
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -8,16 +10,12 @@ export default function AuthSuccess() {
 
     if (token) {
       localStorage.setItem("token", token);
-
       console.log("✅ Token guardado");
 
-      // 🔥 CLAVE: recargar toda la app
-      window.location.href = "/";
+      navigate("/");
     } else {
-      console.error("❌ No token");
-      window.location.href = "/login";
+      navigate("/");
     }
-
   }, []);
 
   return <h1>Conectando...</h1>;

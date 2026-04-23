@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// 🌍 URL dinámica (local + producción)
+// 🌍 API BASE
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:4000/api",
 });
@@ -25,7 +25,6 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
 
-    // ⚠️ Si no hay response (error de red)
     if (!error.response) {
       console.error("🌐 Error de red:", error.message);
       return Promise.reject(error);
@@ -35,19 +34,14 @@ API.interceptors.response.use(
 
     if (status === 401) {
 
-      // 🚫 NO romper auto-login invisible
-      if (window.location.pathname === "/auth-success") {
-        return Promise.reject(error);
-      }
-
-      console.warn("🔒 Sesión expirada o token inválido");
+      console.warn("🔒 Token inválido o expirado");
 
       // limpiar token
       localStorage.removeItem("token");
 
-      // evitar loop infinito
-      if (!window.location.pathname.includes("/login")) {
-        window.location.href = "/login";
+      // 🔥 volver al login del mod (NO /login)
+      if (window.location.pathname !== "/auth-success") {
+        window.location.href = "/auth-success";
       }
     }
 
@@ -71,7 +65,7 @@ export const getSummary = async (worldId) => {
   return res.data;
 };
 
-// 🌍 Obtener mundos del usuario
+// 🌍 Mundos del usuario
 export const getWorlds = async () => {
   const res = await API.get("/worlds");
   return res.data;
