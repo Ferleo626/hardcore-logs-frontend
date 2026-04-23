@@ -4,12 +4,11 @@ export default function AuthSuccess() {
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
 
-    console.log("🔐 TOKEN RECIBIDO:", token);
+    console.log("🔐 TOKEN:", token);
 
-    // ❌ SI NO HAY TOKEN → romper loop directo
     if (!token || token === "null" || token === "undefined") {
-      console.error("❌ No hay token, cortando loop");
-      window.location.replace("/"); // o página de error si querés
+      console.error("❌ Token inválido");
+      window.location.replace("/");
       return;
     }
 
@@ -21,5 +20,9 @@ export default function AuthSuccess() {
 
   }, []);
 
-  return <h1>Conectando...</h1>;
+  return (
+    <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
+      Conectando con Minecraft...
+    </div>
+  );
 }

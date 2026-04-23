@@ -1,5 +1,3 @@
-import { Navigate } from "react-router-dom";
-
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
@@ -8,9 +6,13 @@ function ProtectedRoute({ children }) {
     token !== "undefined" &&
     token !== "null";
 
+  // 🔥 IMPORTANTE: no redirigir en loop
   if (!valid) {
-    // 🔥 IMPORTANTE: ir a home, NO auth-success
-    return <Navigate to="/" replace />;
+    return (
+      <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
+        🔒 No hay sesión activa. Inicia sesión desde el mod de Minecraft.
+      </div>
+    );
   }
 
   return children;
