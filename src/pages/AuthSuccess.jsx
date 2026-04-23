@@ -14,7 +14,7 @@ export default function AuthSuccess() {
 
       console.log("✅ Token guardado");
 
-      navigate("/dashboard"); // o "/" o donde tengas la app
+      navigate("/");
     } else {
       console.error("❌ No token");
       navigate("/login");
