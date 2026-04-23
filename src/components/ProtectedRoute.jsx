@@ -3,15 +3,14 @@ import { Navigate } from "react-router-dom";
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
-  // 🔥 validación estricta real
-  const isValid =
+  const valid =
     token &&
     token !== "undefined" &&
-    token !== "null" &&
-    token.trim() !== "";
+    token !== "null";
 
-  if (!isValid) {
-    return <Navigate to="/auth-success" replace />;
+  if (!valid) {
+    // 🔥 IMPORTANTE: ir a home, NO auth-success
+    return <Navigate to="/" replace />;
   }
 
   return children;

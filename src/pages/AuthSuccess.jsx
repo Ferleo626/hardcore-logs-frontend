@@ -6,28 +6,20 @@ export default function AuthSuccess() {
 
     console.log("🔐 TOKEN RECIBIDO:", token);
 
-    // ❌ token inválido → volver al home
-    if (!token || token.includes("error")) {
-      console.error("❌ Token inválido");
-      window.location.replace("/");
+    // ❌ SI NO HAY TOKEN → romper loop directo
+    if (!token || token === "null" || token === "undefined") {
+      console.error("❌ No hay token, cortando loop");
+      window.location.replace("/"); // o página de error si querés
       return;
     }
 
-    // 🔥 guardar token inmediatamente
     localStorage.setItem("token", token);
 
-    console.log("✅ Token guardado correctamente");
+    console.log("✅ Token guardado");
 
-    // 🔥 pequeño delay para evitar race condition en React Router
-    setTimeout(() => {
-      window.location.replace("/");
-    }, 80);
+    window.location.replace("/");
 
   }, []);
 
-  return (
-    <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
-      Conectando con Minecraft...
-    </div>
-  );
+  return <h1>Conectando...</h1>;
 }
