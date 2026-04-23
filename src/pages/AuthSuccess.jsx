@@ -3,11 +3,13 @@ import { useEffect } from "react";
 export default function AuthSuccess() {
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const token = new URLSearchParams(window.location.search).get("token");
 
     if (!token || token.includes("error")) {
-      window.location.href = "/login";
+      console.error("❌ Token inválido");
+
+      // 🔥 fallback limpio (NO /login)
+      window.location.replace("/");
       return;
     }
 
@@ -15,11 +17,8 @@ export default function AuthSuccess() {
 
     console.log("✅ Token guardado");
 
-    // 🔥 IMPORTANTE: usar window.location (NO navigate)
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 200);
-
+    // 🔥 replace evita loops
+    window.location.replace("/");
   }, []);
 
   return <h1>Conectando...</h1>;
