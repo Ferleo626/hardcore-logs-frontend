@@ -4,7 +4,12 @@ function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
   if (!token || token === "undefined" || token === "null") {
-    return <Navigate to="/auth-success" replace />;
+    // 🔥 NO redirigir a auth-success
+    return (
+      <div style={{ padding: 20 }}>
+        🔒 No hay sesión activa. Inicia sesión desde el mod de Minecraft.
+      </div>
+    );
   }
 
   return children;
