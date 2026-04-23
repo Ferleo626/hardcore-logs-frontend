@@ -41,7 +41,7 @@ function App() {
           />
 
           {/* 🚫 CUALQUIER RUTA INVALIDA */}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
       </main>

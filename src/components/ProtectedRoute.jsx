@@ -4,8 +4,11 @@ function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
   if (!token || token === "undefined" || token === "null") {
-    // 🔥 YA NO EXISTE LOGIN → mandar a auth-success
-    return <Navigate to="/auth-success" replace />;
+    // 🚫 NO redirigir a auth-success
+    // 👉 solo bloquear acceso
+    return <div style={{ padding: 20 }}>
+      No hay sesión activa. Inicia sesión desde el mod.
+    </div>;
   }
 
   return children;
