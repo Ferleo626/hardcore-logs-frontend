@@ -1,29 +1,33 @@
 import { useEffect } from "react";
 
 export default function AuthSuccess() {
-
   useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("token");
 
-    setTimeout(() => {
+    console.log("🔐 TOKEN RECIBIDO:", token);
 
-      const token = new URLSearchParams(window.location.search).get("token");
-
-      console.log("TOKEN:", token);
-
-      if (!token) {
-        window.location.replace("/");
-        return;
-      }
-
-      localStorage.setItem("token", token);
-
-      console.log("GUARDADO OK");
-
+    // ❌ token inválido → volver al home
+    if (!token || token.includes("error")) {
+      console.error("❌ Token inválido");
       window.location.replace("/");
+      return;
+    }
 
-    }, 300); // 🔥 delay evita race condition
+    // 🔥 guardar token inmediatamente
+    localStorage.setItem("token", token);
+
+    console.log("✅ Token guardado correctamente");
+
+    // 🔥 pequeño delay para evitar race condition en React Router
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 80);
 
   }, []);
 
-  return <h1>Conectando...</h1>;
+  return (
+    <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
+      Conectando con Minecraft...
+    </div>
+  );
 }

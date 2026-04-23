@@ -3,13 +3,15 @@ import { Navigate } from "react-router-dom";
 function ProtectedRoute({ children }) {
   const token = localStorage.getItem("token");
 
-  if (!token || token === "undefined" || token === "null") {
-    // 🔥 NO redirigir a auth-success
-    return (
-      <div style={{ padding: 20 }}>
-        🔒 No hay sesión activa. Inicia sesión desde el mod de Minecraft.
-      </div>
-    );
+  // 🔥 validación estricta real
+  const isValid =
+    token &&
+    token !== "undefined" &&
+    token !== "null" &&
+    token.trim() !== "";
+
+  if (!isValid) {
+    return <Navigate to="/auth-success" replace />;
   }
 
   return children;
