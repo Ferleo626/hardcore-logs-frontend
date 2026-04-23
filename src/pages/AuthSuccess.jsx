@@ -1,9 +1,6 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function AuthSuccess() {
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -14,10 +11,11 @@ export default function AuthSuccess() {
 
       console.log("✅ Token guardado");
 
-      navigate("/");
+      // 🔥 CLAVE: recargar toda la app
+      window.location.href = "/";
     } else {
       console.error("❌ No token");
-      navigate("/login");
+      window.location.href = "/login";
     }
 
   }, []);
