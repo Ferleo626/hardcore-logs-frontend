@@ -2,19 +2,31 @@ import { useEffect } from "react";
 
 export default function AuthSuccess() {
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get("token");
 
-    console.log("🔐 TOKEN:", token);
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
 
+    console.log("🔐 URL COMPLETA:", window.location.href);
+    console.log("🔐 TOKEN RAW:", token);
+
+    // ❌ si no hay token → no romper nada
     if (!token || token === "null" || token === "undefined") {
-      console.error("❌ Token inválido");
+      console.error("❌ NO LLEGA TOKEN DESDE EL MOD");
+
+      // NO loop
       window.location.replace("/");
       return;
     }
 
-    localStorage.setItem("token", token);
+    try {
+      localStorage.setItem("token", token);
+      console.log("✅ TOKEN GUARDADO:", token);
+    } catch (e) {
+      console.error("❌ ERROR GUARDANDO TOKEN", e);
+    }
 
-    console.log("✅ Token guardado");
+    // limpiar URL antes de ir al home
+    window.history.replaceState({}, document.title, "/");
 
     window.location.replace("/");
 
