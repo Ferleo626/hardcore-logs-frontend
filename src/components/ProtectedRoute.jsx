@@ -1,12 +1,29 @@
+import { useEffect, useState } from "react";
+
 function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const [checking, setChecking] = useState(true);
+  const [valid, setValid] = useState(false);
 
-  const valid =
-    token &&
-    token !== "undefined" &&
-    token !== "null";
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  // 🔥 IMPORTANTE: no redirigir en loop
+    const isValid =
+      token &&
+      token !== "undefined" &&
+      token !== "null";
+
+    setValid(isValid);
+    setChecking(false);
+  }, []);
+
+  if (checking) {
+    return (
+      <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
+        Cargando sesión...
+      </div>
+    );
+  }
+
   if (!valid) {
     return (
       <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
