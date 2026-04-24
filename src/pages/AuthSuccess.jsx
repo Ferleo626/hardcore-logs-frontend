@@ -1,48 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function AuthSuccess() {
-  const handled = useRef(false);
 
   useEffect(() => {
-    if (handled.current) return;
-    handled.current = true;
 
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    console.log("🔥 AUTH SUCCESS MOUNTED");
+    console.log("URL:", window.location.href);
 
-    console.log("🔐 URL COMPLETA:", window.location.href);
-    console.log("🔐 TOKEN RAW:", token);
+    const token = new URLSearchParams(window.location.search).get("token");
 
-    if (!token || token === "null" || token === "undefined") {
-      console.error("❌ NO LLEGA TOKEN DESDE EL MOD");
+    console.log("TOKEN DETECTADO:", token);
 
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 300);
-
-      return;
-    }
-
-    try {
-      localStorage.setItem("token", token);
-      console.log("✅ TOKEN GUARDADO:", token);
-    } catch (e) {
-      console.error("❌ ERROR GUARDANDO TOKEN", e);
-    }
-
-    // limpiar URL SIN romper flujo
-    window.history.replaceState({}, document.title, "/");
-
-    // redirección controlada
-    setTimeout(() => {
-      window.location.replace("/");
-    }, 400);
+    alert("TOKEN: " + token);
 
   }, []);
 
   return (
-    <div style={{ color: "white", textAlign: "center", marginTop: "50px" }}>
-      Conectando con Minecraft...
+    <div style={{ color: "white" }}>
+      AUTH DEBUG PAGE
     </div>
   );
 }
