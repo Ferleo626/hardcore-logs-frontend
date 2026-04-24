@@ -1,7 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function AuthSuccess() {
+  const handled = useRef(false);
+
   useEffect(() => {
+    if (handled.current) return;
+    handled.current = true;
 
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -9,12 +13,13 @@ export default function AuthSuccess() {
     console.log("🔐 URL COMPLETA:", window.location.href);
     console.log("🔐 TOKEN RAW:", token);
 
-    // ❌ si no hay token → no romper nada
     if (!token || token === "null" || token === "undefined") {
       console.error("❌ NO LLEGA TOKEN DESDE EL MOD");
 
-      // NO loop
-      window.location.replace("/");
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 300);
+
       return;
     }
 
@@ -25,10 +30,13 @@ export default function AuthSuccess() {
       console.error("❌ ERROR GUARDANDO TOKEN", e);
     }
 
-    // limpiar URL antes de ir al home
+    // limpiar URL SIN romper flujo
     window.history.replaceState({}, document.title, "/");
 
-    window.location.replace("/");
+    // redirección controlada
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 400);
 
   }, []);
 
