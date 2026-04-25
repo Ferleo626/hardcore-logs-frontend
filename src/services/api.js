@@ -34,15 +34,15 @@ API.interceptors.response.use(
 
     if (status === 401) {
 
-      console.warn("🔒 Token inválido o expirado");
+      console.warn("🔒 401 recibido (NO borramos token)");
 
-      // limpiar token
-      localStorage.removeItem("token");
+      // ❌ NO borrar token automáticamente
+      // localStorage.removeItem("token");
 
-      // 🔥 volver al login del mod (NO /login)
-      if (window.location.pathname !== "/auth-success") {
-        window.location.href = "/auth-success";
-      }
+      // ❌ NO redirigir automáticamente
+      // window.location.href = "/auth-success";
+
+      // solo log
     }
 
     return Promise.reject(error);
