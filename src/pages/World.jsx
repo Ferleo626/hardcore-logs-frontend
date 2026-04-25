@@ -290,7 +290,8 @@ const speak = (text) => {
     };
 
     console.log("🚀 Enviando al backend:", eventData);
-
+    console.log("📥 EVENT:", req.body);
+    console.log("👤 USER:", req.user);
     const res = await API.post("/events", eventData);
     
     console.log("✅ Guardado:", res.data);
